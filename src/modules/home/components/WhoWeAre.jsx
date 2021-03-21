@@ -5,13 +5,8 @@ import SendMundo from "styles/imgs/SendMUNDO_LOGO_Fabicon.png";
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundImage: `url(${SendMundo})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: 180,
-    backgroundPositionX: "100%",
-    backgroundPositionY: "30%",
     width: "70%",
-    padding: "40px 0 40px 0",
+    padding: "60px 0 60px 0",
   },
   title: {
     fontWeight: 600,
@@ -28,6 +23,13 @@ const useStyles = makeStyles(() => ({
   titleWWA: {
     fontWeight: 600,
     color: "#0073a7",
+  },
+  imageStyle: {
+    position: "absolute",
+    width: 200,
+    top: -50,
+    right: -10,
+    opacity: 0.5,
   },
 }));
 
@@ -48,10 +50,18 @@ export default function WhoWeAre() {
                 La via mas facil para enviar recargas
               </Typography>
             </Grid>
-            <Grid item item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} style={{ position: "relative" }}>
+              <img
+                src={SendMundo}
+                alt="send mundo"
+                className={classes.imageStyle}
+              />
               <Typography
                 variant="body1"
-                style={{ color: "#828282", fontWeight: 500 }}
+                style={{
+                  color: "#828282",
+                  fontWeight: 500,
+                }}
               >
                 We are able to help you with the latest hight tech solutions,
                 thanks to our company culture, which is built an everyday
