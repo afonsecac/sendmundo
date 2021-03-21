@@ -3,11 +3,12 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import Promorion from "modules/home/components/Promotion";
 import WhoWeAre from "modules/home/components/WhoWeAre";
+import CommonQuestion from "modules/home/components/CommonQuestion";
 import BanerPromotion from "styles/imgs/Banner_1.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 20,
+    padding: 8,
   },
   promotionBG: {
     backgroundColor: "#e9f6f8",
@@ -33,6 +34,9 @@ export default function HomeContainer() {
         </Grid>
         <Grid item>
           <WhoWeAre />
+        </Grid>
+        <Grid item>
+          <CommonQuestion />
         </Grid>
       </Grid>
     </React.Fragment>
