@@ -79,7 +79,13 @@ export default function Promotion() {
 
   return (
     <>
-      <Grid container direction="column" alignContent="flex-end" spacing={2}>
+      <Grid
+        container
+        direction="column"
+        alignContent="flex-end"
+        spacing={2}
+        // style={{ backgroundColor: "#e9f6f8" }}
+      >
         <Grid item>
           <Typography className={classes.title} variant="h4" align="center">
             RECARGA AHORA

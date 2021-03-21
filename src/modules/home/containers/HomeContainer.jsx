@@ -6,6 +6,7 @@ import BanerPromotion from "styles/imgs/Banner_1.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    backgroundColor: "#e9f6f8",
     backgroundImage: `url(${BanerPromotion})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",

@@ -17,7 +17,7 @@ import SendMUNDO_LOGO from "styles/imgs/SendMUNDO_LOGO.png";
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     height: 120,
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    // borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbarTitle: {
     flex: 1,
