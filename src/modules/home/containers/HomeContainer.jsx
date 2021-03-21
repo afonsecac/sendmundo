@@ -2,15 +2,19 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import Promorion from "modules/home/components/Promotion";
+import WhoWeAre from "modules/home/components/WhoWeAre";
 import BanerPromotion from "styles/imgs/Banner_1.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: 20,
+  },
+  promotionBG: {
     backgroundColor: "#e9f6f8",
     backgroundImage: `url(${BanerPromotion})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    padding: 20,
+    padding: "20px 0 20px 0",
   },
 }));
 
@@ -24,7 +28,12 @@ export default function HomeContainer() {
         alignItems="stretch"
         className={classes.root}
       >
-        <Promorion />
+        <Grid item className={classes.promotionBG}>
+          <Promorion />
+        </Grid>
+        <Grid item>
+          <WhoWeAre />
+        </Grid>
       </Grid>
     </React.Fragment>
   );
