@@ -24,7 +24,6 @@ export default function HomeContainer() {
         className={classes.root}
       >
         <Promorion />
-        <Grid style={{ height: 170 }} item></Grid>
       </Grid>
     </React.Fragment>
   );

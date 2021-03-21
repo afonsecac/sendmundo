@@ -3,9 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
   Typography,
-  MenuItem,
   TextField,
   InputAdornment,
+  Card,
+  CardContent,
+  CardActions,
+  CardActionArea,
+  Button,
 } from "@material-ui/core";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import CubaFlag from "styles/imgs/flags/cuba.png";
@@ -33,26 +37,40 @@ const useStyles = makeStyles((theme) => ({
       color: "#0073a7",
     },
   },
+  root: {
+    minWidth: 170,
+    border: "2px solid #0073a7",
+  },
+  cardContent: {
+    color: "#0073a7",
+  },
+  promotionCardLetter: {
+    color: "#f98400",
+  },
+  cardFooter: {
+    backgroundColor: "#0073a7",
+    color: "#fff",
+  },
+  buttonSend: {
+    color: "#fff",
+    backgroundColor: "#ff9300",
+    fontWeight: 600,
+    width: 260,
+    "&:hover": {
+      color: "#fff",
+      backgroundColor: "#ff9300",
+    },
+  },
 }));
 
-const countries = [
-  {
-    label: "Cuba",
-    src: CubaFlag,
-    link: " ",
-    value: "cu",
-    code: "+53",
-  },
+const promotionList = [
+  { name: "Reciben", price: 1500, balance: 500, bono: 1000, pay: 19.99 },
+  { name: "Reciben", price: 3000, balance: 1000, bono: 2000, pay: 39.99 },
+  { name: "Reciben", price: 4500, balance: 1500, bono: 3000, pay: 59.99 },
 ];
 
 export default function Promotion() {
   const classes = useStyles();
-
-  const [country, setCountry] = useState("cu");
-
-  const handleChange = (event) => {
-    setCountry(event.target.value);
-  };
 
   const [value, setValue] = useState();
   const handleChangeValue = (event) => {
@@ -111,6 +129,95 @@ export default function Promotion() {
                 }}
               />
             </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container justify="space-between" spacing={1}>
+            {promotionList.map((promotion, index) => (
+              <Grid item key={index}>
+                <Card className={classes.root} elevation={0}>
+                  <CardActionArea>
+                    <CardContent className={classes.cardContent}>
+                      <Typography
+                        align="center"
+                        variant="body1"
+                        style={{ fontWeight: 600 }}
+                      >
+                        {promotion.name}
+                      </Typography>
+                      <Grid
+                        container
+                        justify="center"
+                        className={classes.promotionCardLetter}
+                      >
+                        <Typography
+                          align="left"
+                          variant="h5"
+                          style={{ fontWeight: 500, fontSize: 16 }}
+                        >
+                          $
+                        </Typography>
+                        <Typography
+                          align="center"
+                          variant="h5"
+                          style={{ fontWeight: 800 }}
+                        >
+                          {promotion.price}
+                        </Typography>
+                        <Typography
+                          align="right"
+                          variant="h5"
+                          style={{
+                            fontWeight: 600,
+                            fontSize: 14,
+                            marginLeft: 5,
+                          }}
+                        >
+                          CUP
+                        </Typography>
+                      </Grid>
+                      <Typography align="center" variant="body1">
+                        + {promotion.balance} cup de saldo
+                      </Typography>
+                      <Typography align="center" variant="body1">
+                        + {promotion.bono} cup de bono
+                      </Typography>
+                    </CardContent>
+                    <CardActions className={classes.cardFooter}>
+                      <Grid container justify="center">
+                        <Typography
+                          align="center"
+                          variant="body1"
+                          style={{ fontWeight: 600 }}
+                        >
+                          Pagas $ {promotion.pay} USD
+                        </Typography>
+                      </Grid>
+                    </CardActions>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography
+            variant="body1"
+            align="center"
+            style={{ color: "#0073a7" }}
+          >
+            * El bono es transferible y tiene una vigencia de 30 dias
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Grid container justify="center">
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.buttonSend}
+            >
+              ENVIAR RECARGA
+            </Button>
           </Grid>
         </Grid>
       </Grid>
