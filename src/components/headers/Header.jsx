@@ -7,12 +7,12 @@ import {
   Button,
   IconButton,
   Typography,
-  Link,
 } from "@material-ui/core";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import SendMUNDO_LOGO from "styles/imgs/SendMUNDO_LOGO.png";
+import { Link as LinkR } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -46,9 +46,9 @@ export default function Header(props) {
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-        <Link>
+        <LinkR to="/">
           <img src={SendMUNDO_LOGO} alt="logApp" width={220} />
-        </Link>
+        </LinkR>
         <Typography
           component="h2"
           variant="h5"
@@ -65,6 +65,8 @@ export default function Header(props) {
           variant="outlined"
           size="large"
           className={classes.buttonSession}
+          component={LinkR}
+          to="/login"
         >
           Iniciar session
         </Button>
