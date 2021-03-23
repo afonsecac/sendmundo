@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#0073a7",
   },
   buttonSession: {
+    minWidth: 178,
     borderRadius: 25,
     color: "#fff",
     backgroundColor: "#ff9300",
