@@ -18,6 +18,7 @@ import MaterialUiPhoneNumber from "material-ui-phone-number";
 import AuthContext from "context/auth/AuthContext";
 import CountryAutoComplete from "components/autocompletes/CountryAutoComplete";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
+import {Checkbox, FormControlLabel} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -67,9 +68,8 @@ export default function SignUpForm() {
       },
       isPromotional: false,
     },
-    onSubmit: (values) => {
-      console.log(values);
-      register(values);
+    onSubmit: (values, { setErrors }) => {
+      register(values, setErrors);
     },
     validationSchema: registerSchema,
   });
@@ -103,7 +103,7 @@ export default function SignUpForm() {
           className={classes.form}
           noValidate
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={2} direction={"column"}>
             <Grid item xs={12}>
               <TextField
                 name="fullName"
@@ -246,6 +246,19 @@ export default function SignUpForm() {
                 }
               />
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Box mt={2}>
+              <FormControlLabel
+                  value="end"
+                  control={
+                    <Checkbox color="primary"
+                              value={formik?.values?.isPromotional}/>
+                  }
+                  label="Acepto que me envien ofertas y promociones a mi correo registrado en SendMundo"
+                  labelPlacement="end"
+              />
+            </Box>
           </Grid>
           <UnelevatedButton
             type="submit"

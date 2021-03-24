@@ -10,9 +10,11 @@ export default function CountryAutoComplete({ handleChange, ...props }) {
   const searchCountry = (event) => {
     const search = event.target.value;
     clearTimeout(timeoutId.current);
-    timeoutId.current = setTimeout(() => {
-      getCountries(search);
-    }, 1000);
+    if (search && search.length >= 2) {
+        timeoutId.current = setTimeout(() => {
+            getCountries(search);
+        }, 1000);
+    }
   };
 
   return (

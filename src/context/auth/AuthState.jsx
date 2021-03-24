@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 import AuthReducer from "context/auth/AuthReducer";
 import AuthContext from "context/auth/AuthContext";
-import axios from "axios-or";
+import axios, { otherInstance } from "axios-or";
 import {
   LOADING_REGISTER,
   REGISTER_SUCCESS,
@@ -34,7 +34,7 @@ export default function AuthState({ children }) {
     console.log("LOGIN");
   };
 
-  const register = useCallback(async (payload) => {
+  const register = useCallback(async (payload, setErrors) => {
     try {
       dispatch({ type: LOADING_REGISTER });
       await axios.post("https://api.sendmundo.com/register", payload);
@@ -48,13 +48,14 @@ export default function AuthState({ children }) {
       enqueueSnackbar("Ops algo ha ido mal :(", {
         variant: "error",
       });
+      console.log(error.response);
     }
   }, []);
 
   const getCountries = useCallback(async (name) => {
     try {
       dispatch({ type: LOADING_COUNTRIES });
-      const resp = await axios.get(
+      const resp = await otherInstance.get(
         `https://restcountries.eu/rest/v2/name/${name}`
       );
       dispatch({ type: COUNTRIES_SUCCESS, payload: resp.data });

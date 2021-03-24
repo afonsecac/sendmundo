@@ -8,4 +8,9 @@ const instace = axios.create({
   // baseURL: "https://api.sendmundo.com",
 });
 
+export const otherInstance = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
 export default instace;
