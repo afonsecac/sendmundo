@@ -7,7 +7,6 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { fade, lighten } from "@material-ui/core/styles";
-import "typeface-montserrat";
 
 import * as palette from "utils/palette";
 
@@ -58,7 +57,7 @@ const error = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: '"Montserrat"',
+    // fontFamily: '"Montserrat"',
   },
 });
 
@@ -70,7 +69,7 @@ const gray = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: '"Montserrat"',
+    // fontFamily: '"Montserrat"',
   },
 });
 
