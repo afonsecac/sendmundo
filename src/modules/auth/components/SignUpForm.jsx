@@ -1,15 +1,18 @@
-import React, { useContext, useEffect } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import {
+  Container,
+  Avatar,
+  CssBaseline,
+  TextField,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+} from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Link as LinkR } from "react-router-dom";
 import { useFormik } from "formik";
 import { registerSchema } from "modules/auth/validations/RegisterValidation";
@@ -18,7 +21,6 @@ import MaterialUiPhoneNumber from "material-ui-phone-number";
 import AuthContext from "context/auth/AuthContext";
 import CountryAutoComplete from "components/autocompletes/CountryAutoComplete";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -103,7 +105,7 @@ export default function SignUpForm() {
           className={classes.form}
           noValidate
         >
-          <Grid container spacing={2} direction={"column"}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 name="fullName"
@@ -111,7 +113,6 @@ export default function SignUpForm() {
                 required
                 fullWidth
                 label="Nombre completo"
-                autoFocus
                 value={formik.values.fullName || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -201,7 +202,7 @@ export default function SignUpForm() {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <MaterialUiPhoneNumber
                 defaultCountry={"cu"}
                 onChange={(e, country) => {
@@ -231,7 +232,7 @@ export default function SignUpForm() {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <CountryAutoComplete
                 handleChange={handleChangeCountry}
                 error={
@@ -250,13 +251,17 @@ export default function SignUpForm() {
           <Grid item xs={12}>
             <Box mt={2}>
               <FormControlLabel
-                  value="end"
-                  control={
-                    <Checkbox color="primary"
-                              value={formik?.values?.isPromotional}/>
-                  }
-                  label="Acepto que me envien ofertas y promociones a mi correo registrado en SendMundo"
-                  labelPlacement="end"
+                control={
+                  <Checkbox
+                    color="primary"
+                    name="isPromotional"
+                    value={formik.values.isPromotional}
+                    checked={formik.values.isPromotional}
+                    onChange={formik.handleChange}
+                  />
+                }
+                label="Acepto que me envien ofertas y promociones a mi correo registrado en SendMundo"
+                labelPlacement="end"
               />
             </Box>
           </Grid>
@@ -267,6 +272,7 @@ export default function SignUpForm() {
             color="primary"
             className={classes.submit}
             withProgress={loadingRegister}
+            disabled={!formik.values.isPromotional}
           >
             Registrarse
           </UnelevatedButton>

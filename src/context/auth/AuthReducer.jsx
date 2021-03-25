@@ -8,9 +8,12 @@ import {
   LOADING_COUNTRIES,
   COUNTRIES_SUCCESS,
   COUNTRIES_FAIL,
+  LOADING_CONFIRM,
+  CONFIRM_SUCCESS,
+  CONFIRM_FAIL,
 } from "context/auth/types";
 
-export default (state, action) => {
+export default function AuthReducer(state, action) {
   const { payload, type } = action;
   switch (type) {
     case SIGNIN_SUCCESS:
@@ -26,6 +29,7 @@ export default (state, action) => {
     case REGISTER_SUCCESS:
       return {
         ...state,
+        user: payload,
         loadingRegister: false,
       };
     case REGISTER_FAIL:
@@ -49,8 +53,23 @@ export default (state, action) => {
         ...state,
         loadingCountries: false,
       };
+    case LOADING_CONFIRM:
+      return {
+        ...state,
+        loadingConfirm: true,
+      };
+    case CONFIRM_SUCCESS:
+      return {
+        ...state,
+        loadingConfirm: false,
+      };
+    case CONFIRM_FAIL:
+      return {
+        ...state,
+        loadingConfirm: false,
+      };
 
     default:
       return state;
   }
-};
+}

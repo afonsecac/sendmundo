@@ -10,7 +10,8 @@ const instace = axios.create({
 
 export const otherInstance = axios.create({
   headers: {
-    'Content-Type': 'application/json',
-  }
+    "Content-Type": "application/json",
+  },
 });
+
 export default instace;
