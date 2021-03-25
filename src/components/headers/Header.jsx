@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -8,11 +8,13 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import SendMUNDO_LOGO from "styles/imgs/SendMUNDO_LOGO.png";
 import { Link as LinkR } from "react-router-dom";
+import AuthContext from "context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#0073a7",
   },
   buttonSession: {
-    minWidth: 178,
+    // minWidth: 178,
     borderRadius: 25,
     color: "#fff",
     backgroundColor: "#ff9300",
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header(props) {
   const classes = useStyles();
   const { title } = props;
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
 
   return (
     <React.Fragment>
@@ -62,21 +65,42 @@ export default function Header(props) {
             <PhoneAndroidIcon /> {title}
           </Grid>
         </Typography>
-        <Button
-          variant="outlined"
-          size="large"
-          className={classes.buttonSession}
-          component={LinkR}
-          to="/login"
-        >
-          Iniciar session
-        </Button>
-        <IconButton className={classes.iconButton}>
-          <FacebookIcon />
-        </IconButton>
-        <IconButton className={classes.iconButton}>
-          <TwitterIcon />
-        </IconButton>
+        {isAuthenticated ? (
+          <div>
+            <Typography
+              align="center"
+              variant="h6"
+              className={classes.toolbarTitle}
+            >
+              Bienvenido: {user.nickname}
+              <IconButton
+                aria-label="exit app"
+                style={{ color: "#ff9300" }}
+                onClick={() => logout()}
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            </Typography>
+          </div>
+        ) : (
+          <>
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.buttonSession}
+              component={LinkR}
+              to="/login"
+            >
+              Iniciar session
+            </Button>
+            <IconButton className={classes.iconButton}>
+              <FacebookIcon />
+            </IconButton>
+            <IconButton className={classes.iconButton}>
+              <TwitterIcon />
+            </IconButton>
+          </>
+        )}
       </Toolbar>
     </React.Fragment>
   );

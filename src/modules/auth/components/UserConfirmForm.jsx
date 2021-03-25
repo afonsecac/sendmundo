@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -49,7 +49,7 @@ export default function UserConfirmForm() {
   const formik = useFormik({
     enableReinitialize: user,
     initialValues: {
-      username: user?.email,
+      username: user?.email || JSON.parse(localStorage.getItem("user")).email,
       code: "",
     },
     onSubmit: (values) => {

@@ -1,4 +1,5 @@
 import {
+  UPDT_USER_DATA,
   LOADING,
   SIGNIN_SUCCESS,
   SIGNIN_FAIL,
@@ -12,14 +13,27 @@ import {
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
 } from "context/auth/types";
+import isEmpty from "validations/is-empty";
 
 export default function AuthReducer(state, action) {
   const { payload, type } = action;
   switch (type) {
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case SIGNIN_SUCCESS:
       return {
         ...state,
         user: payload,
+        isAuthenticated: !isEmpty(payload),
+        loading: false,
+      };
+    case SIGNIN_FAIL:
+      return {
+        ...state,
+        loading: false,
       };
     case LOADING_REGISTER:
       return {
@@ -67,6 +81,12 @@ export default function AuthReducer(state, action) {
       return {
         ...state,
         loadingConfirm: false,
+      };
+    case UPDT_USER_DATA:
+      return {
+        ...state,
+        user: payload,
+        isAuthenticated: !isEmpty(payload),
       };
 
     default:

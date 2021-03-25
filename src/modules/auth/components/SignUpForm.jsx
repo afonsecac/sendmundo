@@ -129,6 +129,7 @@ export default function SignUpForm() {
                 variant="outlined"
                 required
                 fullWidth
+                type="email"
                 label="Email"
                 name="email"
                 value={formik.values.email || ""}

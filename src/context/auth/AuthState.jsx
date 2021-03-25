@@ -1,10 +1,14 @@
-import React, { useReducer, useMemo, useCallback } from "react";
+import React, { useReducer, useMemo, useCallback, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 import AuthReducer from "context/auth/AuthReducer";
 import AuthContext from "context/auth/AuthContext";
 import axios, { otherInstance } from "axios-or";
 import {
+  UPDT_USER_DATA,
+  LOADING,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAIL,
   LOADING_REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -15,6 +19,7 @@ import {
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
 } from "context/auth/types";
+import jwtDecode from "jwt-decode";
 
 export default function AuthState({ children }) {
   const history = useHistory();
@@ -25,18 +30,42 @@ export default function AuthState({ children }) {
       countries: [],
       loadingRegister: false,
       loadingConfirm: false,
+      loading: false,
       user: {},
-      token: "",
+      isAuthenticated: false,
     }),
     []
   );
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const login = (event) => {
-    event.preventDefault();
-    console.log("LOGIN");
-  };
+  const login = useCallback(
+    async (payload) => {
+      try {
+        dispatch({ type: LOADING });
+        const resp = await axios.post(
+          "https://api.sendmundo.com/security/tokens",
+          payload
+        );
+        localStorage.setItem("token", resp.data.token);
+        localStorage.setItem("refreshToken", resp.data.refreshToken);
+        const userData = jwtDecode(resp.data.token);
+        dispatch({ type: SIGNIN_SUCCESS, payload: userData });
+        history.push("/");
+      } catch (error) {
+        dispatch({ type: SIGNIN_FAIL });
+        enqueueSnackbar("Ops algo ha ido mal :(", {
+          variant: "error",
+        });
+      }
+    },
+    [enqueueSnackbar, history]
+  );
+
+  const logout = useCallback(() => {
+    localStorage.clear();
+    dispatch({ type: UPDT_USER_DATA, payload: {} });
+  }, []);
 
   const register = useCallback(
     async (payload, setErrors) => {
@@ -47,7 +76,7 @@ export default function AuthState({ children }) {
           payload
         );
         dispatch({ type: REGISTER_SUCCESS, payload: resp.data.user });
-        localStorage.setItem("user", resp.data.user);
+        localStorage.setItem("user", JSON.stringify(resp.data.user));
         enqueueSnackbar("El usuario se ha registrado correctamente", {
           variant: "success",
         });
@@ -133,16 +162,28 @@ export default function AuthState({ children }) {
     [enqueueSnackbar]
   );
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const userData = jwtDecode(localStorage.getItem("token"));
+      dispatch({ type: UPDT_USER_DATA, payload: userData });
+    }
+  }, []);
+
+  console.log(state);
+
   return (
     <AuthContext.Provider
       value={{
         loadingCountries: state.loadingCountries,
         loadingRegister: state.loadingRegister,
         loadingConfirm: state.loadingConfirm,
+        loading: state.loading,
         countries: state.countries,
         user: state.user,
+        isAuthenticated: state.isAuthenticated,
         token: state.token,
         login,
+        logout,
         register,
         confirmUser,
         getCountries,
