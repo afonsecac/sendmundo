@@ -98,7 +98,7 @@ export default function SignUpForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Registro
         </Typography>
         <form
           onSubmit={formik.handleSubmit}
@@ -280,7 +280,7 @@ export default function SignUpForm() {
           <Grid container justify="flex-end">
             <Grid item>
               <Link component={LinkR} to="/login" variant="body2">
-                Already have an account? Sign in
+                Ya tienes un usuario? Accede
               </Link>
             </Grid>
           </Grid>

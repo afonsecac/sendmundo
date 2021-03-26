@@ -17,6 +17,12 @@ const useStyles = makeStyles((theme) => ({
   multilineColor: {
     color: "#0073a7",
   },
+  inputLabel: {
+    color: "#0073a7",
+    "&.focused": {
+      color: "#0073a7",
+    },
+  },
 }));
 
 export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
@@ -87,6 +93,12 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
           size="small"
           variant="outlined"
           className={classes.textField}
+          InputLabelProps={{
+            classes: {
+              root: classes.inputLabel,
+              focused: "focused",
+            },
+          }}
           InputProps={{
             className: classes.multilineColor,
             ...params.InputProps,

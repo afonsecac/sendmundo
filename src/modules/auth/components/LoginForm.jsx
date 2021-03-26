@@ -67,7 +67,7 @@ export default function LoginForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Acceder
         </Typography>
         <form
           onSubmit={formik.handleSubmit}
@@ -121,12 +121,12 @@ export default function LoginForm() {
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Has olvidado la contrasenna?
               </Link>
             </Grid>
             <Grid item>
               <Link component={LinkR} to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"No tienes usuario aun? Registrate"}
               </Link>
             </Grid>
           </Grid>

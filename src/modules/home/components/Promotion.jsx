@@ -62,7 +62,6 @@ export default function Promotion() {
   };
 
   const handlePhoneCodeSelect = (country) => {
-    console.log(country);
     if (country) {
       getPromotions({ isHome: true, countryCode: country.alpha3Code });
     } else {
@@ -77,7 +76,7 @@ export default function Promotion() {
   return (
     <>
       <Grid container direction="column" alignContent="flex-end" spacing={2}>
-        <Grid item>
+        <Grid item style={{ height: 5 }}>
           <LinearProgress hidden={!loadingPromotions} />
         </Grid>
         <Grid item>
@@ -101,19 +100,21 @@ export default function Promotion() {
                   onChange={handleChangeValue}
                   variant="outlined"
                   className={classes.textField}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.inputLabel,
-                      focused: "focused",
-                    },
-                  }}
+                  // InputLabelProps={{
+                  //   classes: {
+                  //     root: classes.inputLabel,
+                  //     focused: "focused",
+                  //   },
+                  // }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <AccountCircleRoundedIcon />
+                        <AccountCircleRoundedIcon
+                          style={{ color: "#0073a7" }}
+                        />
                       </InputAdornment>
                     ),
-                    className: classes.multilineColor,
+                    // className: classes.multilineColor,
                   }}
                 />
               </Grid>
