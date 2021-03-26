@@ -8,6 +8,7 @@ import {
   GET_PROMOTIONS,
   GET_PROMOTIONS_FAIL,
   SELECT_PROMOTION,
+  CLEAR_PROMOTIONS,
 } from "context/home/types";
 
 export default function HomeState({ children }) {
@@ -47,6 +48,10 @@ export default function HomeState({ children }) {
     dispatch({ type: SELECT_PROMOTION, payload: promotion });
   }, []);
 
+  const clearPromotions = useCallback(() => {
+    dispatch({ type: CLEAR_PROMOTIONS });
+  }, []);
+
   return (
     <HomeContext.Provider
       value={{
@@ -57,6 +62,7 @@ export default function HomeState({ children }) {
         phoneNumber: state.phoneNumber,
         getPromotions,
         selectPromotion,
+        clearPromotions,
       }}
     >
       {children}

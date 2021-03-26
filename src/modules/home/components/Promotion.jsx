@@ -53,9 +53,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Promotion() {
   const classes = useStyles();
   const history = useHistory();
-  const { loadingPromotions, promotions, getPromotions } = useContext(
-    HomeContext
-  );
+  const {
+    loadingPromotions,
+    promotions,
+    getPromotions,
+    clearPromotions,
+  } = useContext(HomeContext);
   const { isAuthenticated } = useContext(AuthContext);
 
   const [value, setValue] = useState();
@@ -66,6 +69,8 @@ export default function Promotion() {
   const handlePhoneCodeSelect = (country) => {
     if (country) {
       getPromotions({ isHome: true, countryCode: country.alpha3Code });
+    } else {
+      clearPromotions();
     }
   };
 

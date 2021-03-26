@@ -88,6 +88,7 @@ export default function PaymentStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
+            {/* ADD SUMARRY PAYMENT */}
             <Typography className={classes.instructions}>
               All steps completed - you&apos;re finished
             </Typography>

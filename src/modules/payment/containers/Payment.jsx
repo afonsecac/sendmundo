@@ -5,7 +5,6 @@ import PaymentStepper from "modules/payment/components/PaymentStepper";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-// import "../../../App.css";
 
 const promise = loadStripe("pk_test_TjviJqNXIhnu3tdZg6q0ZyCb003sMZq8dw");
 
