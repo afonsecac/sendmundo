@@ -65,7 +65,8 @@ export default function AuthState({ children }) {
   const logout = useCallback(() => {
     localStorage.clear();
     dispatch({ type: UPDT_USER_DATA, payload: {} });
-  }, []);
+    history.push("/");
+  }, [history]);
 
   const register = useCallback(
     async (payload, setErrors) => {
@@ -169,6 +170,7 @@ export default function AuthState({ children }) {
     }
   }, []);
 
+  console.log(state);
   return (
     <AuthContext.Provider
       value={{

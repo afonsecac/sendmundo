@@ -1,6 +1,5 @@
 import React, { useReducer, useMemo, useCallback } from "react";
 import { useSnackbar } from "notistack";
-import { useHistory } from "react-router-dom";
 import HomeReducer from "context/home/HomeReducer";
 import HomeContext from "context/home/HomeContext";
 import axios from "axios-or";
@@ -8,15 +7,16 @@ import {
   LOADING_PROMOTIONS,
   GET_PROMOTIONS,
   GET_PROMOTIONS_FAIL,
+  SELECT_PROMOTION,
 } from "context/home/types";
 
 export default function HomeState({ children }) {
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const initialState = useMemo(
     () => ({
       loadingPromotions: false,
       promotions: [],
+      promotionSelected: "",
       selectedCountryCodePH: "",
       phoneNumber: "",
     }),
@@ -43,14 +43,20 @@ export default function HomeState({ children }) {
     [enqueueSnackbar]
   );
 
+  const selectPromotion = useCallback((promotion) => {
+    dispatch({ type: SELECT_PROMOTION, payload: promotion });
+  }, []);
+
   return (
     <HomeContext.Provider
       value={{
         loadingPromotions: state.loadingPromotions,
         promotions: state.promotions,
+        promotionSelected: state.promotionSelected,
         selectedCountryCodePH: state.selectedCountryCodePH,
         phoneNumber: state.phoneNumber,
         getPromotions,
+        selectPromotion,
       }}
     >
       {children}

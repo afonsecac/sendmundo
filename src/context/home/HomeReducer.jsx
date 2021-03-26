@@ -2,6 +2,7 @@ import {
   LOADING_PROMOTIONS,
   GET_PROMOTIONS,
   GET_PROMOTIONS_FAIL,
+  SELECT_PROMOTION,
 } from "context/home/types";
 
 export default function HomeReducer(state, action) {
@@ -22,6 +23,11 @@ export default function HomeReducer(state, action) {
       return {
         ...state,
         loadingPromotions: false,
+      };
+    case SELECT_PROMOTION:
+      return {
+        ...state,
+        promotionSelected: payload,
       };
 
     default:

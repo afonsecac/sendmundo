@@ -8,6 +8,7 @@ import {
   Button,
   LinearProgress,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import HomeContext from "context/home/HomeContext";
 import AuthContext from "context/auth/AuthContext";
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Promotion() {
   const classes = useStyles();
+  const history = useHistory();
   const { loadingPromotions, promotions, getPromotions } = useContext(
     HomeContext
   );
@@ -64,14 +66,8 @@ export default function Promotion() {
   const handlePhoneCodeSelect = (country) => {
     if (country) {
       getPromotions({ isHome: true, countryCode: country.alpha3Code });
-    } else {
-      getPromotions({ isHome: true });
     }
   };
-
-  useEffect(() => {
-    getPromotions({ isHome: true });
-  }, [getPromotions]);
 
   return (
     <>
@@ -144,6 +140,7 @@ export default function Promotion() {
               size="large"
               className={classes.buttonSend}
               disabled={!isAuthenticated}
+              onClick={() => history.push("/pay-stepp")}
             >
               ENVIAR RECARGA
             </Button>
