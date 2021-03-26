@@ -11,9 +11,9 @@ export default function CountryAutoComplete({ handleChange, ...props }) {
     const search = event.target.value;
     clearTimeout(timeoutId.current);
     if (search && search.length >= 2) {
-        timeoutId.current = setTimeout(() => {
-            getCountries(search);
-        }, 1000);
+      timeoutId.current = setTimeout(() => {
+        getCountries(search);
+      }, 1000);
     }
   };
 
@@ -30,7 +30,7 @@ export default function CountryAutoComplete({ handleChange, ...props }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Escriba el nombre del pais"
+          label="Pais"
           onChange={searchCountry}
           variant="outlined"
           {...props}
