@@ -1,19 +1,22 @@
 import React, { useContext } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import {
+  Avatar,
+  TextField,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Link as LinkR } from "react-router-dom";
 import AuthContext from "context/auth/AuthContext";
+import PasswordInput from "common/inputs/PasswordInput";
+import UnelevatedButton from "common/buttons/UnelevatedButton";
+import { useFormik } from "formik";
+import { userLoginSchema } from "modules/auth/validations/LoginValidations";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +46,18 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginForm() {
   const classes = useStyles();
 
-  const { login } = useContext(AuthContext);
+  const { login, loading } = useContext(AuthContext);
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      login(values);
+    },
+    validationSchema: userLoginSchema,
+  });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,53 +67,66 @@ export default function LoginForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Acceder
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          onSubmit={formik.handleSubmit}
+          className={classes.form}
+          noValidate
+        >
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
+            label="User or Email"
+            name="username"
+            value={formik.values.username || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={!!(formik.touched.username && formik.errors.username)}
+            helperText={
+              formik.touched.username && formik.errors.username
+                ? formik.errors.username
+                : ""
+            }
           />
-          <TextField
+          <PasswordInput
             variant="outlined"
-            margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name="password"
+            value={formik.values.password || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={!!(formik.touched.password && formik.errors.password)}
+            helperText={
+              formik.touched.password && formik.errors.password
+                ? formik.errors.password
+                : ""
+            }
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
+          <UnelevatedButton
             type="submit"
             fullWidth
             variant="contained"
-            // color="primary"
+            color="primary"
             className={classes.submit}
+            withProgress={loading}
           >
-            Sign In
-          </Button>
+            Acceder
+          </UnelevatedButton>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Has olvidado la contrasenna?
               </Link>
             </Grid>
             <Grid item>
               <Link component={LinkR} to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"No tienes usuario aun? Registrate"}
               </Link>
             </Grid>
           </Grid>

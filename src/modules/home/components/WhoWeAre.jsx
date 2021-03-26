@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import SendMundo from "styles/imgs/SendMUNDO_LOGO_Fabicon.png";
+import Send from "styles/imgs/send.9897a42b.svg";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,8 +26,8 @@ const useStyles = makeStyles(() => ({
   },
   imageStyle: {
     position: "absolute",
-    width: 200,
-    top: -50,
+    width: 300,
+    top: -40,
     right: -10,
     opacity: 0.5,
   },
@@ -51,11 +51,7 @@ export default function WhoWeAre() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} style={{ position: "relative" }}>
-              <img
-                src={SendMundo}
-                alt="send mundo"
-                className={classes.imageStyle}
-              />
+              <img src={Send} alt="send mundo" className={classes.imageStyle} />
               <Typography
                 variant="body1"
                 style={{
