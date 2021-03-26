@@ -5,7 +5,6 @@ const instace = axios.create({
     "X-LANGUAGE": "es",
     Authorization: "Bearer null",
   },
-  // baseURL: "https://api.sendmundo.com",
 });
 
 export const otherInstance = axios.create({

@@ -7,6 +7,7 @@ import {
   Button,
   IconButton,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -73,13 +74,15 @@ export default function Header(props) {
               className={classes.toolbarTitle}
             >
               Bienvenido: {user.nickname}
-              <IconButton
-                aria-label="exit app"
-                style={{ color: "#ff9300" }}
-                onClick={() => logout()}
-              >
-                <ExitToAppIcon />
-              </IconButton>
+              <Tooltip title="Salir">
+                <IconButton
+                  aria-label="exit app"
+                  style={{ color: "#ff9300" }}
+                  onClick={() => logout()}
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              </Tooltip>
             </Typography>
           </div>
         ) : (

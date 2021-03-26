@@ -169,8 +169,6 @@ export default function AuthState({ children }) {
     }
   }, []);
 
-  console.log(state);
-
   return (
     <AuthContext.Provider
       value={{
