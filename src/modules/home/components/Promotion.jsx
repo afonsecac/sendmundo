@@ -90,41 +90,37 @@ export default function Promotion() {
           </Typography>
         </Grid>
         <Grid item>
-          {isAuthenticated && (
-            <Grid container item spacing={1} justify="center">
-              <Grid item xs={12} sm={4}>
-                <PhoneCodeAutoComplete handleChange={handlePhoneCodeSelect} />
-              </Grid>
-              <Grid item xs={12} sm={7}>
-                <TextField
-                  fullWidth
-                  name="phoneNumber"
-                  size="small"
-                  value={value || ""}
-                  placeholder="Numero de telefono"
-                  onChange={handleChangeValue}
-                  variant="outlined"
-                  className={classes.textField}
-                  // InputLabelProps={{
-                  //   classes: {
-                  //     root: classes.inputLabel,
-                  //     focused: "focused",
-                  //   },
-                  // }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <AccountCircleRoundedIcon
-                          style={{ color: "#0073a7" }}
-                        />
-                      </InputAdornment>
-                    ),
-                    // className: classes.multilineColor,
-                  }}
-                />
-              </Grid>
+          <Grid container item spacing={1} justify="center">
+            <Grid item xs={12} sm={4}>
+              <PhoneCodeAutoComplete handleChange={handlePhoneCodeSelect} />
             </Grid>
-          )}
+            <Grid item xs={12} sm={7}>
+              <TextField
+                fullWidth
+                name="phoneNumber"
+                size="small"
+                value={value || ""}
+                placeholder="Numero de telefono"
+                onChange={handleChangeValue}
+                variant="outlined"
+                className={classes.textField}
+                // InputLabelProps={{
+                //   classes: {
+                //     root: classes.inputLabel,
+                //     focused: "focused",
+                //   },
+                // }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <AccountCircleRoundedIcon style={{ color: "#0073a7" }} />
+                    </InputAdornment>
+                  ),
+                  // className: classes.multilineColor,
+                }}
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <Grid container spacing={1}>
@@ -148,7 +144,6 @@ export default function Promotion() {
               variant="outlined"
               size="large"
               className={classes.buttonSend}
-              disabled={!isAuthenticated}
               onClick={() =>
                 navigateToPayFor(`+${callingCode || "53"}${value || ""}`)
               }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Stepper,
@@ -100,6 +100,19 @@ export default function PaymentStepper() {
         return "Unknown step";
     }
   };
+
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      if (ownPhoneNumber && !isEmpty(promotionSelected)) {
+        setActiveStep(2);
+      } else if (!isEmpty(promotionSelected)) {
+        setActiveStep(1);
+      }
+      firstRender.current = false;
+    }
+  }, [ownPhoneNumber, promotionSelected]);
 
   return (
     <div className={classes.root}>
