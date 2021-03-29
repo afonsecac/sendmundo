@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid, LinearProgress } from "@material-ui/core";
 import PromotionItem from "modules/home/components/PromotionItem";
 import HomeContext from "context/home/HomeContext";

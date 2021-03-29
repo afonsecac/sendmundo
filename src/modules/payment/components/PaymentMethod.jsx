@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PaymentMethod() {
-  const classes = useStyles();
+  useStyles();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState("");
