@@ -7,6 +7,8 @@ import {
   Button,
   Typography,
   Grid,
+  Card,
+  CardContent,
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import Promotions from "modules/payment/components/Promotions";
@@ -17,6 +19,7 @@ import PaymentContext from "context/payment/PaymentContext";
 import HomeContext from "context/home/HomeContext";
 
 import isEmpty from "validations/is-empty";
+import UnelevatedButton from "common/buttons/UnelevatedButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   instructions: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
+  },
+  card: {
+    minWidth: 275,
   },
 }));
 
@@ -111,13 +117,48 @@ export default function PaymentStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
-            {/* ADD SUMARRY PAYMENT */}
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
+            <Typography className={classes.instructions}>Resumen</Typography>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Mobil recargado:</b> {ownPhoneNumber}
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Pagado:</b> {promotionSelected.basePrice} USD
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Recivido:</b> {promotionSelected.rechargeAmount} CUP
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Bono:</b> {promotionSelected.rechargeBonus}
+                </Typography>
+              </CardContent>
+            </Card>
+            <Grid container justify="flex-end">
+              <UnelevatedButton
+                onClick={handleReset}
+                variant="contained"
+                color="primary"
+              >
+                Reiniciar
+              </UnelevatedButton>
+            </Grid>
           </div>
         ) : (
           <div>
@@ -136,7 +177,7 @@ export default function PaymentStepper() {
                 onClick={handleNext}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? "Completado" : "Siguiente"}
+                {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
               </Button>
             </Grid>
           </div>

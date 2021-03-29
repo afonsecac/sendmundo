@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import AuthReducer from "context/auth/AuthReducer";
 import AuthContext from "context/auth/AuthContext";
 import axios, { otherInstance } from "axios-or";
+import setAuthToken from "utils/setAuthToken";
 import {
   UPDT_USER_DATA,
   LOADING,
@@ -106,6 +107,7 @@ export default function AuthState({ children }) {
           "https://api.sendmundo.com/security/tokens",
           payload
         );
+        setAuthToken(resp.data.token);
         localStorage.setItem("token", resp.data.token);
         localStorage.setItem("refreshToken", resp.data.refreshToken);
         const userData = jwtDecode(resp.data.token);
@@ -122,6 +124,7 @@ export default function AuthState({ children }) {
   );
 
   const logout = useCallback(() => {
+    setAuthToken();
     localStorage.clear();
     dispatch({ type: UPDT_USER_DATA, payload: {} });
     window.location = "/";

@@ -6,7 +6,6 @@ import axios from "axios-or";
 import {
   SELECT_OWN_PHONE,
   SELECT_CONFIRM_CHARGE_PHONE,
-  SELECT_CHARGE_PHONE,
 } from "context/payment/types";
 
 export default function PaymentState({ children }) {
