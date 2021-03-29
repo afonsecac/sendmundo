@@ -3,14 +3,18 @@ import { useSnackbar } from "notistack";
 import PaymentReducer from "context/payment/PaymentReducer";
 import PaymentContext from "context/payment/PaymentContext";
 import axios from "axios-or";
-import { SELECT_OWN_PHONE, SELECT_CHARGE_PHONE } from "context/payment/types";
+import {
+  SELECT_OWN_PHONE,
+  SELECT_CONFIRM_CHARGE_PHONE,
+  SELECT_CHARGE_PHONE,
+} from "context/payment/types";
 
 export default function PaymentState({ children }) {
   const { enqueueSnackbar } = useSnackbar();
   const initialState = useMemo(
     () => ({
       ownPhoneNumber: "",
-      chargePhoneNumber: [],
+      confirmOwnPhoneNumber: "",
     }),
     []
   );
@@ -20,17 +24,17 @@ export default function PaymentState({ children }) {
   const handleChangeOwnPHNumber = useCallback((value) => {
     dispatch({ type: SELECT_OWN_PHONE, payload: value });
   }, []);
-  const handleChangeChargePHNumber = useCallback((value) => {
-    dispatch({ type: SELECT_CHARGE_PHONE, payload: value });
+  const handleChangeConfirmOwnPHNumber = useCallback((value) => {
+    dispatch({ type: SELECT_CONFIRM_CHARGE_PHONE, payload: value });
   }, []);
 
   return (
     <PaymentContext.Provider
       value={{
         ownPhoneNumber: state.ownPhoneNumber,
-        chargePhoneNumber: state.chargePhoneNumber,
+        confirmOwnPhoneNumber: state.confirmOwnPhoneNumber,
         handleChangeOwnPHNumber,
-        handleChangeChargePHNumber,
+        handleChangeConfirmOwnPHNumber,
       }}
     >
       {children}

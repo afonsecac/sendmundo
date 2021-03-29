@@ -78,6 +78,12 @@ export default function AuthState({ children }) {
         await axios.post("https://api.sendmundo.com/code/send", payload);
         dispatch({ type: SEND_CODE_SUCCESS });
         localStorage.setItem("usernameOrEmail", payload.usernameOrEmail);
+        enqueueSnackbar(
+          "Se ha enviado un codigo a su email para que cambie su password",
+          {
+            variant: "success",
+          }
+        );
         history.push("/recover-password");
       } catch (error) {
         dispatch({ type: SEND_CODE_FAIL });

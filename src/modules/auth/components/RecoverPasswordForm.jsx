@@ -55,6 +55,7 @@ export default function RecoverPasswordForm() {
       passwordConfirm: "",
     },
     onSubmit: (values) => {
+      delete values.passwordConfirm;
       recoverPassword(values);
     },
     validationSchema: recoverPasswordSchema,

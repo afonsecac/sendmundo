@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Stepper,
@@ -8,9 +8,15 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 import Promotions from "modules/payment/components/Promotions";
 import PhoneRechar from "modules/payment/components/PhoneRechar";
 import PaymentMethod from "modules/payment/components/PaymentMethod";
+
+import PaymentContext from "context/payment/PaymentContext";
+import HomeContext from "context/home/HomeContext";
+
+import isEmpty from "validations/is-empty";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +37,9 @@ function getSteps() {
 
 export default function PaymentStepper() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const { ownPhoneNumber, confirmOwnPhoneNumber } = useContext(PaymentContext);
+  const { promotionSelected } = useContext(HomeContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -47,8 +56,22 @@ export default function PaymentStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    if (activeStep === 0 && isEmpty(promotionSelected)) {
+      enqueueSnackbar("Debe seleccionar una oferta", {
+        variant: "error",
+      });
+    } else if (activeStep === 1 && isEmpty(ownPhoneNumber)) {
+      enqueueSnackbar("Debe proporcionar un mobil", {
+        variant: "error",
+      });
+    } else if (activeStep === 1 && ownPhoneNumber !== confirmOwnPhoneNumber) {
+      enqueueSnackbar("Los numeros de los mobiles deben cohincidir", {
+        variant: "error",
+      });
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {

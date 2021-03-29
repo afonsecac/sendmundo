@@ -25,7 +25,13 @@ function Copyright() {
 export default function Footer() {
   return (
     <div style={{ backgroundColor: "#0073a7", padding: 20 }}>
-      <Grid container spacing={5} justify="center" style={{ paddingTop: 15 }}>
+      <Grid
+        container
+        spacing={5}
+        justify="center"
+        alignItems="center"
+        style={{ paddingTop: 15 }}
+      >
         <Grid item>
           <Typography
             variant="h6"
