@@ -117,7 +117,13 @@ export default function PaymentStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>Resumen</Typography>
+            <Typography
+              align="center"
+              className={classes.instructions}
+              variant="h6"
+            >
+              Resumen
+            </Typography>
             <Card className={classes.card}>
               <CardContent>
                 <Typography
