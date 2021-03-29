@@ -14,7 +14,7 @@ export default function Promotions() {
 
   return (
     <Grid item>
-      <Grid item style={{ height: 5 }}>
+      <Grid item style={{ height: 10 }}>
         <LinearProgress hidden={!loadingPromotions} />
       </Grid>
       <Grid container spacing={1}>

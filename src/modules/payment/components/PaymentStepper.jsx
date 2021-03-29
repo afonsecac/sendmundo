@@ -71,7 +71,7 @@ export default function PaymentStepper() {
         variant: "error",
       });
     } else if (activeStep === 1 && ownPhoneNumber !== confirmOwnPhoneNumber) {
-      enqueueSnackbar("Los numeros de los mobiles deben cohincidir", {
+      enqueueSnackbar("Los mobiles deben cohincidir", {
         variant: "error",
       });
     } else {
