@@ -12,6 +12,12 @@ import {
   LOADING_CONFIRM,
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
+  LOADING_SEND_CODE,
+  SEND_CODE_SUCCESS,
+  SEND_CODE_FAIL,
+  LOADING_RECOVER_PW,
+  RECOVER_PW_SUCCESS,
+  RECOVER_PW_FAIL,
 } from "context/auth/types";
 import isEmpty from "validations/is-empty";
 
@@ -87,6 +93,36 @@ export default function AuthReducer(state, action) {
         ...state,
         user: payload,
         isAuthenticated: !isEmpty(payload),
+      };
+    case LOADING_SEND_CODE:
+      return {
+        ...state,
+        loadingSendCode: true,
+      };
+    case SEND_CODE_SUCCESS:
+      return {
+        ...state,
+        loadingSendCode: false,
+      };
+    case SEND_CODE_FAIL:
+      return {
+        ...state,
+        loadingSendCode: false,
+      };
+    case LOADING_RECOVER_PW:
+      return {
+        ...state,
+        loadingReconverPassword: true,
+      };
+    case RECOVER_PW_SUCCESS:
+      return {
+        ...state,
+        loadingReconverPassword: false,
+      };
+    case RECOVER_PW_FAIL:
+      return {
+        ...state,
+        loadingReconverPassword: false,
       };
 
     default:

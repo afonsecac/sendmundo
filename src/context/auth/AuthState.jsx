@@ -18,6 +18,12 @@ import {
   LOADING_CONFIRM,
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
+  LOADING_SEND_CODE,
+  SEND_CODE_SUCCESS,
+  SEND_CODE_FAIL,
+  LOADING_RECOVER_PW,
+  RECOVER_PW_SUCCESS,
+  RECOVER_PW_FAIL,
 } from "context/auth/types";
 import jwtDecode from "jwt-decode";
 
@@ -31,13 +37,60 @@ export default function AuthState({ children }) {
       loadingRegister: false,
       loadingConfirm: false,
       loading: false,
+      loadingSendCode: false,
       user: {},
       isAuthenticated: false,
+      loadingReconverPassword: false,
     }),
     []
   );
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const recoverPassword = useCallback(
+    async (payload) => {
+      try {
+        dispatch({ type: LOADING_RECOVER_PW });
+        await axios.post(
+          "https://api.sendmundo.com/security/recovery-password",
+          payload
+        );
+        dispatch({ type: RECOVER_PW_SUCCESS });
+        enqueueSnackbar("Ha cambiado el password correctamente", {
+          variant: "success",
+        });
+        localStorage.removeItem("usernameOrEmail");
+        history.push("/login");
+      } catch (error) {
+        dispatch({ type: RECOVER_PW_FAIL });
+        enqueueSnackbar("Ops algo ha ido mal :(", {
+          variant: "error",
+        });
+      }
+    },
+    [enqueueSnackbar, history]
+  );
+
+  const sendCode = useCallback(
+    async (payload) => {
+      try {
+        dispatch({ type: LOADING_SEND_CODE });
+        await axios.post("https://api.sendmundo.com/code/send", payload);
+        dispatch({ type: SEND_CODE_SUCCESS });
+        localStorage.setItem("usernameOrEmail", payload.usernameOrEmail);
+        history.push("/recover-password");
+      } catch (error) {
+        dispatch({ type: SEND_CODE_FAIL });
+        enqueueSnackbar(
+          "Ops algo ha ido mal secciorese que el usuario sea correcto :(",
+          {
+            variant: "error",
+          }
+        );
+      }
+    },
+    [enqueueSnackbar, history]
+  );
 
   const login = useCallback(
     async (payload) => {
@@ -65,8 +118,8 @@ export default function AuthState({ children }) {
   const logout = useCallback(() => {
     localStorage.clear();
     dispatch({ type: UPDT_USER_DATA, payload: {} });
-    history.push("/");
-  }, [history]);
+    window.location = "/";
+  }, []);
 
   const register = useCallback(
     async (payload, setErrors) => {
@@ -170,7 +223,6 @@ export default function AuthState({ children }) {
     }
   }, []);
 
-  console.log(state);
   return (
     <AuthContext.Provider
       value={{
@@ -178,6 +230,8 @@ export default function AuthState({ children }) {
         loadingRegister: state.loadingRegister,
         loadingConfirm: state.loadingConfirm,
         loading: state.loading,
+        loadingSendCode: state.loadingSendCode,
+        loadingReconverPassword: state.loadingReconverPassword,
         countries: state.countries,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
@@ -187,6 +241,8 @@ export default function AuthState({ children }) {
         register,
         confirmUser,
         getCountries,
+        sendCode,
+        recoverPassword,
       }}
     >
       {children}

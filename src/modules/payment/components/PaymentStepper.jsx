@@ -105,7 +105,7 @@ export default function PaymentStepper() {
                 onClick={handleBack}
                 className={classes.button}
               >
-                Back
+                Atras
               </Button>
               <Button
                 variant="contained"
@@ -113,7 +113,7 @@ export default function PaymentStepper() {
                 onClick={handleNext}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                {activeStep === steps.length - 1 ? "Completado" : "Siguiente"}
               </Button>
             </Grid>
           </div>
