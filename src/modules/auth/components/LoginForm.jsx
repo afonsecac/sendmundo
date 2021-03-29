@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import {
   Avatar,
   TextField,
@@ -61,7 +60,6 @@ export default function LoginForm() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -120,7 +118,7 @@ export default function LoginForm() {
           </UnelevatedButton>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link component={LinkR} to="/send-code" variant="body2">
                 Has olvidado la contrasenna?
               </Link>
             </Grid>

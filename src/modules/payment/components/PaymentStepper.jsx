@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Stepper,
@@ -7,10 +7,19 @@ import {
   Button,
   Typography,
   Grid,
+  Card,
+  CardContent,
 } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 import Promotions from "modules/payment/components/Promotions";
 import PhoneRechar from "modules/payment/components/PhoneRechar";
 import PaymentMethod from "modules/payment/components/PaymentMethod";
+
+import PaymentContext from "context/payment/PaymentContext";
+import HomeContext from "context/home/HomeContext";
+
+import isEmpty from "validations/is-empty";
+import UnelevatedButton from "common/buttons/UnelevatedButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  card: {
+    minWidth: 275,
+  },
 }));
 
 function getSteps() {
@@ -31,6 +43,9 @@ function getSteps() {
 
 export default function PaymentStepper() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const { ownPhoneNumber, confirmOwnPhoneNumber } = useContext(PaymentContext);
+  const { promotionSelected } = useContext(HomeContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -47,8 +62,22 @@ export default function PaymentStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    if (activeStep === 0 && isEmpty(promotionSelected)) {
+      enqueueSnackbar("Debe seleccionar una oferta", {
+        variant: "error",
+      });
+    } else if (activeStep === 1 && isEmpty(ownPhoneNumber)) {
+      enqueueSnackbar("Debe proporcionar un mobil", {
+        variant: "error",
+      });
+    } else if (activeStep === 1 && ownPhoneNumber !== confirmOwnPhoneNumber) {
+      enqueueSnackbar("Los mobiles deben cohincidir", {
+        variant: "error",
+      });
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {
@@ -72,6 +101,19 @@ export default function PaymentStepper() {
     }
   };
 
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      if (ownPhoneNumber && !isEmpty(promotionSelected)) {
+        setActiveStep(2);
+      } else if (!isEmpty(promotionSelected)) {
+        setActiveStep(1);
+      }
+      firstRender.current = false;
+    }
+  }, [ownPhoneNumber, promotionSelected]);
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep}>
@@ -88,13 +130,54 @@ export default function PaymentStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
-            {/* ADD SUMARRY PAYMENT */}
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
+            <Typography
+              align="center"
+              className={classes.instructions}
+              variant="h6"
+            >
+              Resumen
             </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Mobil recargado:</b> {ownPhoneNumber}
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Pagado:</b> {promotionSelected.basePrice} USD
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Recivido:</b> {promotionSelected.rechargeAmount} CUP
+                </Typography>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  <b>Bono:</b> {promotionSelected.rechargeBonus}
+                </Typography>
+              </CardContent>
+            </Card>
+            <Grid container justify="flex-end">
+              <UnelevatedButton
+                onClick={handleReset}
+                variant="contained"
+                color="primary"
+              >
+                Reiniciar
+              </UnelevatedButton>
+            </Grid>
           </div>
         ) : (
           <div>
@@ -105,7 +188,7 @@ export default function PaymentStepper() {
                 onClick={handleBack}
                 className={classes.button}
               >
-                Back
+                Atras
               </Button>
               <Button
                 variant="contained"
@@ -113,7 +196,7 @@ export default function PaymentStepper() {
                 onClick={handleNext}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
               </Button>
             </Grid>
           </div>

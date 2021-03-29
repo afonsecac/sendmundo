@@ -1,4 +1,7 @@
-import { SELECT_OWN_PHONE, SELECT_CHARGE_PHONE } from "context/payment/types";
+import {
+  SELECT_OWN_PHONE,
+  SELECT_CONFIRM_CHARGE_PHONE,
+} from "context/payment/types";
 
 export default function PaymentReducer(state, action) {
   const { payload, type } = action;
@@ -8,10 +11,10 @@ export default function PaymentReducer(state, action) {
         ...state,
         ownPhoneNumber: payload,
       };
-    case SELECT_CHARGE_PHONE:
+    case SELECT_CONFIRM_CHARGE_PHONE:
       return {
         ...state,
-        chargePhoneNumber: payload,
+        confirmOwnPhoneNumber: payload,
       };
 
     default:

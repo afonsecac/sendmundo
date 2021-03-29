@@ -4,6 +4,7 @@ import {
   GET_PROMOTIONS_FAIL,
   SELECT_PROMOTION,
   CLEAR_PROMOTIONS,
+  GET_PHONE_NUMBER,
 } from "context/home/types";
 
 export default function HomeReducer(state, action) {
@@ -34,6 +35,11 @@ export default function HomeReducer(state, action) {
       return {
         ...state,
         promotionSelected: payload,
+      };
+    case GET_PHONE_NUMBER:
+      return {
+        ...state,
+        phoneNumber: payload,
       };
 
     default:
