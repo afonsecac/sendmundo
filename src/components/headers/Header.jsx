@@ -73,7 +73,7 @@ export default function Header(props) {
               variant="h6"
               className={classes.toolbarTitle}
             >
-              Bienvenido: {user.nickname}
+              {user.nickname}
               <Tooltip title="Salir">
                 <IconButton
                   aria-label="exit app"

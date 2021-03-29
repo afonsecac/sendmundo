@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Container,
   Avatar,
   TextField,
   Link,
   Grid,
   Box,
   Typography,
+  Container,
 } from "@material-ui/core";
-import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Link as LinkR } from "react-router-dom";
-import { useFormik } from "formik";
-import { userConfirmSchema } from "modules/auth/validations/UserConfirmValidation";
 import AuthContext from "context/auth/AuthContext";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
+import { useFormik } from "formik";
+import { sendCodeSchema } from "modules/auth/validations/SendCodeValidations";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -41,77 +41,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserConfirmForm() {
+export default function SendCodeForm() {
   const classes = useStyles();
-  const { loadingConfirm, confirmUser, user } = useContext(AuthContext);
+
+  const { sendCode, loadingSendCode } = useContext(AuthContext);
 
   const formik = useFormik({
-    enableReinitialize: user,
     initialValues: {
-      username: user?.email || JSON.parse(localStorage.getItem("user")).email,
-      code: "",
+      usernameOrEmail: "",
     },
     onSubmit: (values) => {
-      confirmUser(values);
+      sendCode(values);
     },
-    validationSchema: userConfirmSchema,
+    validationSchema: sendCodeSchema,
   });
-
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <ConfirmationNumberIcon />
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Validar Usuario
+          Verificacion de usuario
         </Typography>
         <form
           onSubmit={formik.handleSubmit}
           className={classes.form}
           noValidate
         >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                name="code"
-                variant="outlined"
-                required
-                fullWidth
-                label="Codigo"
-                value={formik.values.code || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={!!(formik.touched.code && formik.errors.code)}
-                helperText={
-                  formik.touched.code && formik.errors.code
-                    ? formik.errors.code
-                    : ""
-                }
-              />
-            </Grid>
-          </Grid>
-
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="User or Email"
+            name="usernameOrEmail"
+            value={formik.values.usernameOrEmail || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              !!(
+                formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+              )
+            }
+            helperText={
+              formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+                ? formik.errors.usernameOrEmail
+                : ""
+            }
+          />
           <UnelevatedButton
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            withProgress={loadingConfirm}
+            withProgress={loadingSendCode}
           >
-            Validar
+            Enviar
           </UnelevatedButton>
-          <Grid container justify="flex-end">
+          <Grid container>
             <Grid item>
-              <Link component={LinkR} to="/login" variant="body2">
-                Already have an account? Sign in
+              <Link component={LinkR} to="/register" variant="body2">
+                {"No tienes usuario aun? Registrate"}
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={5}></Box>
+      <Box mt={8}></Box>
     </Container>
   );
 }

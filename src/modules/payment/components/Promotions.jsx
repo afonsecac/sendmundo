@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid, LinearProgress } from "@material-ui/core";
 import PromotionItem from "modules/home/components/PromotionItem";
 import HomeContext from "context/home/HomeContext";
@@ -15,7 +14,7 @@ export default function Promotions() {
 
   return (
     <Grid item>
-      <Grid item style={{ height: 5 }}>
+      <Grid item style={{ height: 10 }}>
         <LinearProgress hidden={!loadingPromotions} />
       </Grid>
       <Grid container spacing={1}>

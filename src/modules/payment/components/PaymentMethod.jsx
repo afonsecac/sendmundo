@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
 
@@ -83,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PaymentMethod() {
-  const classes = useStyles();
+  useStyles();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState("");
@@ -95,10 +96,11 @@ export default function PaymentMethod() {
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     window
-      .fetch("/create-payment-intent", {
+      .fetch("https://api.sendmundo.com/payment/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
       })
@@ -134,6 +136,7 @@ export default function PaymentMethod() {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
   };
+
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     setProcessing(true);
@@ -160,14 +163,17 @@ export default function PaymentMethod() {
           options={cardStyle}
           onChange={handleChange}
         />
-        <UnelevatedButton
-          disabled={processing || disabled || succeeded}
-          id="submit"
-          color="primary"
-          variant="contained"
-        >
-          Pagar
-        </UnelevatedButton>
+        <Grid container justify="flex-end" item style={{ marginTop: 15 }}>
+          <UnelevatedButton
+            disabled={processing || disabled || succeeded}
+            id="submit"
+            color="primary"
+            variant="contained"
+          >
+            Pagar
+          </UnelevatedButton>
+        </Grid>
+
         {/* Show any error that happens when processing the payment */}
         {error && (
           <div className="card-error" role="alert">

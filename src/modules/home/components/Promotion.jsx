@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -8,12 +8,12 @@ import {
   Button,
   LinearProgress,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
-import HomeContext from "context/home/HomeContext";
-import AuthContext from "context/auth/AuthContext";
 import PromotionItem from "modules/home/components/PromotionItem";
 import PhoneCodeAutoComplete from "components/autocompletes/PhoneCodeAutoComplete";
+
+import HomeContext from "context/home/HomeContext";
+import AuthContext from "context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Promotion() {
   const classes = useStyles();
-  const history = useHistory();
   const {
     loadingPromotions,
     promotions,
@@ -60,16 +59,21 @@ export default function Promotion() {
     clearPromotions,
   } = useContext(HomeContext);
   const { isAuthenticated } = useContext(AuthContext);
+  const { navigateToPayFor } = useContext(HomeContext);
 
   const [value, setValue] = useState();
   const handleChangeValue = (event) => {
     setValue(event.target.value);
   };
 
+  const [callingCode, setCallingCode] = useState("");
+
   const handlePhoneCodeSelect = (country) => {
     if (country) {
+      setCallingCode(country.callingCodes[0]);
       getPromotions({ isHome: true, countryCode: country.alpha3Code });
     } else {
+      setCallingCode("");
       clearPromotions();
     }
   };
@@ -86,41 +90,37 @@ export default function Promotion() {
           </Typography>
         </Grid>
         <Grid item>
-          {isAuthenticated && (
-            <Grid container item spacing={1} justify="center">
-              <Grid item xs={12} sm={4}>
-                <PhoneCodeAutoComplete handleChange={handlePhoneCodeSelect} />
-              </Grid>
-              <Grid item xs={12} sm={7}>
-                <TextField
-                  fullWidth
-                  name="phoneNumber"
-                  size="small"
-                  value={value}
-                  placeholder="Numero de telefono"
-                  onChange={handleChangeValue}
-                  variant="outlined"
-                  className={classes.textField}
-                  // InputLabelProps={{
-                  //   classes: {
-                  //     root: classes.inputLabel,
-                  //     focused: "focused",
-                  //   },
-                  // }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <AccountCircleRoundedIcon
-                          style={{ color: "#0073a7" }}
-                        />
-                      </InputAdornment>
-                    ),
-                    // className: classes.multilineColor,
-                  }}
-                />
-              </Grid>
+          <Grid container item spacing={1} justify="center">
+            <Grid item xs={12} sm={4}>
+              <PhoneCodeAutoComplete handleChange={handlePhoneCodeSelect} />
             </Grid>
-          )}
+            <Grid item xs={12} sm={7}>
+              <TextField
+                fullWidth
+                name="phoneNumber"
+                size="small"
+                value={value || ""}
+                placeholder="Numero de telefono"
+                onChange={handleChangeValue}
+                variant="outlined"
+                className={classes.textField}
+                // InputLabelProps={{
+                //   classes: {
+                //     root: classes.inputLabel,
+                //     focused: "focused",
+                //   },
+                // }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <AccountCircleRoundedIcon style={{ color: "#0073a7" }} />
+                    </InputAdornment>
+                  ),
+                  // className: classes.multilineColor,
+                }}
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <Grid container spacing={1}>
@@ -144,8 +144,9 @@ export default function Promotion() {
               variant="outlined"
               size="large"
               className={classes.buttonSend}
-              disabled={!isAuthenticated}
-              onClick={() => history.push("/pay-stepp")}
+              onClick={() =>
+                navigateToPayFor(`+${callingCode || "53"}${value || ""}`)
+              }
             >
               ENVIAR RECARGA
             </Button>

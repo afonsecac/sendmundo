@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import AuthReducer from "context/auth/AuthReducer";
 import AuthContext from "context/auth/AuthContext";
 import axios, { otherInstance } from "axios-or";
+import setAuthToken from "utils/setAuthToken";
 import {
   UPDT_USER_DATA,
   LOADING,
@@ -18,6 +19,12 @@ import {
   LOADING_CONFIRM,
   CONFIRM_SUCCESS,
   CONFIRM_FAIL,
+  LOADING_SEND_CODE,
+  SEND_CODE_SUCCESS,
+  SEND_CODE_FAIL,
+  LOADING_RECOVER_PW,
+  RECOVER_PW_SUCCESS,
+  RECOVER_PW_FAIL,
 } from "context/auth/types";
 import jwtDecode from "jwt-decode";
 
@@ -31,13 +38,66 @@ export default function AuthState({ children }) {
       loadingRegister: false,
       loadingConfirm: false,
       loading: false,
+      loadingSendCode: false,
       user: {},
       isAuthenticated: false,
+      loadingReconverPassword: false,
     }),
     []
   );
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const recoverPassword = useCallback(
+    async (payload) => {
+      try {
+        dispatch({ type: LOADING_RECOVER_PW });
+        await axios.post(
+          "https://api.sendmundo.com/security/recovery-password",
+          payload
+        );
+        dispatch({ type: RECOVER_PW_SUCCESS });
+        enqueueSnackbar("Ha cambiado el password correctamente", {
+          variant: "success",
+        });
+        localStorage.removeItem("usernameOrEmail");
+        history.push("/login");
+      } catch (error) {
+        dispatch({ type: RECOVER_PW_FAIL });
+        enqueueSnackbar("Ops algo ha ido mal :(", {
+          variant: "error",
+        });
+      }
+    },
+    [enqueueSnackbar, history]
+  );
+
+  const sendCode = useCallback(
+    async (payload) => {
+      try {
+        dispatch({ type: LOADING_SEND_CODE });
+        await axios.post("https://api.sendmundo.com/code/send", payload);
+        dispatch({ type: SEND_CODE_SUCCESS });
+        localStorage.setItem("usernameOrEmail", payload.usernameOrEmail);
+        enqueueSnackbar(
+          "Se ha enviado un codigo a su email para que cambie su password",
+          {
+            variant: "success",
+          }
+        );
+        history.push("/recover-password");
+      } catch (error) {
+        dispatch({ type: SEND_CODE_FAIL });
+        enqueueSnackbar(
+          "Ops algo ha ido mal secciorese que el usuario sea correcto :(",
+          {
+            variant: "error",
+          }
+        );
+      }
+    },
+    [enqueueSnackbar, history]
+  );
 
   const login = useCallback(
     async (payload) => {
@@ -47,6 +107,7 @@ export default function AuthState({ children }) {
           "https://api.sendmundo.com/security/tokens",
           payload
         );
+        setAuthToken(resp.data.token);
         localStorage.setItem("token", resp.data.token);
         localStorage.setItem("refreshToken", resp.data.refreshToken);
         const userData = jwtDecode(resp.data.token);
@@ -63,10 +124,11 @@ export default function AuthState({ children }) {
   );
 
   const logout = useCallback(() => {
+    setAuthToken();
     localStorage.clear();
     dispatch({ type: UPDT_USER_DATA, payload: {} });
-    history.push("/");
-  }, [history]);
+    window.location = "/";
+  }, []);
 
   const register = useCallback(
     async (payload, setErrors) => {
@@ -170,7 +232,6 @@ export default function AuthState({ children }) {
     }
   }, []);
 
-  console.log(state);
   return (
     <AuthContext.Provider
       value={{
@@ -178,6 +239,8 @@ export default function AuthState({ children }) {
         loadingRegister: state.loadingRegister,
         loadingConfirm: state.loadingConfirm,
         loading: state.loading,
+        loadingSendCode: state.loadingSendCode,
+        loadingReconverPassword: state.loadingReconverPassword,
         countries: state.countries,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
@@ -187,6 +250,8 @@ export default function AuthState({ children }) {
         register,
         confirmUser,
         getCountries,
+        sendCode,
+        recoverPassword,
       }}
     >
       {children}
