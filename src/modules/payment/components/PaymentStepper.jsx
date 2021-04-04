@@ -44,8 +44,13 @@ function getSteps() {
 export default function PaymentStepper() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { ownPhoneNumber, confirmOwnPhoneNumber } = useContext(PaymentContext);
-  const { promotionSelected } = useContext(HomeContext);
+  const {
+    ownPhoneNumber,
+    confirmOwnPhoneNumber,
+    paymentCompleted,
+    handleResetAndClear,
+  } = useContext(PaymentContext);
+  const { promotionSelected, clearPromotions } = useContext(HomeContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -74,6 +79,10 @@ export default function PaymentStepper() {
       enqueueSnackbar("Los mobiles deben cohincidir", {
         variant: "error",
       });
+    } else if (activeStep === 2 && !paymentCompleted) {
+      enqueueSnackbar("Aun no completa su pago", {
+        variant: "error",
+      });
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
@@ -86,6 +95,8 @@ export default function PaymentStepper() {
 
   const handleReset = () => {
     setActiveStep(0);
+    handleResetAndClear();
+    clearPromotions();
   };
 
   const getStepContent = (step) => {
@@ -182,7 +193,7 @@ export default function PaymentStepper() {
         ) : (
           <div>
             {getStepContent(activeStep)}
-            <Grid container justify="flex-end" style={{ marginTop: 20 }}>
+            <Grid container justify="flex-end" style={{ marginTop: 20, marginBottom: 20 }}>
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}

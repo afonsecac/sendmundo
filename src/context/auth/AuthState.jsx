@@ -53,7 +53,7 @@ export default function AuthState({ children }) {
       try {
         dispatch({ type: LOADING_RECOVER_PW });
         await axios.post(
-          "https://api.sendmundo.com/security/recovery-password",
+          "/security/recovery-password",
           payload
         );
         dispatch({ type: RECOVER_PW_SUCCESS });
@@ -76,7 +76,7 @@ export default function AuthState({ children }) {
     async (payload) => {
       try {
         dispatch({ type: LOADING_SEND_CODE });
-        await axios.post("https://api.sendmundo.com/code/send", payload);
+        await axios.post("/code/send", payload);
         dispatch({ type: SEND_CODE_SUCCESS });
         localStorage.setItem("usernameOrEmail", payload.usernameOrEmail);
         enqueueSnackbar(
@@ -104,7 +104,7 @@ export default function AuthState({ children }) {
       try {
         dispatch({ type: LOADING });
         const resp = await axios.post(
-          "https://api.sendmundo.com/security/tokens",
+          "/security/tokens",
           payload
         );
         setAuthToken(resp.data.token);
@@ -135,7 +135,7 @@ export default function AuthState({ children }) {
       try {
         dispatch({ type: LOADING_REGISTER });
         const resp = await axios.post(
-          "https://api.sendmundo.com/register",
+          "/register",
           payload
         );
         dispatch({ type: REGISTER_SUCCESS, payload: resp.data.user });
@@ -166,7 +166,7 @@ export default function AuthState({ children }) {
       try {
         dispatch({ type: LOADING_CONFIRM });
         const resp = await axios.post(
-          "https://api.sendmundo.com/code/validate",
+          "/code/validate",
           payload
         );
         if (resp.data?.isBlocked) {
