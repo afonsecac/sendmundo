@@ -142,7 +142,7 @@ export default function PaymentMethod() {
     const createPaymentOrder = async () => {
         await generateOrderPayment(promotionSelected, {
             ownPhoneNumber
-        }, 'mobile', paymentSelected, null, {
+        }, 'phone', paymentSelected, null, {
             currency,
             rateValue
         });
