@@ -24,7 +24,10 @@ export default function HomeReducer(state, action) {
     case CLEAR_PROMOTIONS:
       return {
         ...state,
-        promotions: [],
+        ...{
+          promotions: [],
+          promotionSelected: null,
+        }
       };
     case GET_PROMOTIONS_FAIL:
       return {

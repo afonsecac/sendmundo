@@ -32,7 +32,7 @@ export default function HomeState({ children }) {
     async (params) => {
       try {
         dispatch({ type: LOADING_PROMOTIONS });
-        const resp = await axios.get("https://api.sendmundo.com/offer", {
+        const resp = await axios.get("/offer", {
           params: params,
         });
         dispatch({ type: GET_PROMOTIONS, payload: resp.data.data });

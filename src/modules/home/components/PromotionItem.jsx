@@ -76,14 +76,17 @@ export default function PromotionItem({ promotion }) {
                   CUP
                 </Typography>
               </Grid>
-              <Typography align="center" variant="body1">
-                + {promotion.rechargeBonus}
-              </Typography>
-              {promotion.promotionalPrice && (
-                <Typography align="center" variant="body1">
-                  + {promotion.promotionalPrice}
-                </Typography>
-              )}
+              {
+                promotion?.rechargeBonus ? (
+                    <Typography align="center" variant="body1">
+                      + {promotion.rechargeBonus}
+                    </Typography>
+                ) : (
+                  <Typography align="center" variant="body1">
+                    Saldo principal
+                  </Typography>
+                )
+              }
             </CardContent>
             <CardActions className={classes.cardFooter}>
               <Grid container justify="center">
@@ -92,7 +95,7 @@ export default function PromotionItem({ promotion }) {
                   variant="body1"
                   style={{ fontWeight: 600 }}
                 >
-                  Pagas $ {promotion.basePrice} USD
+                  Pagas $ {promotion.promotionalPrice ? promotion.promotionalPrice : promotion.basePrice} {promotion.currency}
                 </Typography>
               </Grid>
             </CardActions>
