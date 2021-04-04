@@ -11,6 +11,7 @@ import {
   SELECT_PROMOTION,
   CLEAR_PROMOTIONS,
   GET_PHONE_NUMBER,
+  SET_COUNTRY,
 } from "context/home/types";
 
 export default function HomeState({ children }) {
@@ -22,6 +23,7 @@ export default function HomeState({ children }) {
       promotions: [],
       promotionSelected: "",
       phoneNumber: "",
+      country: "",
     }),
     []
   );
@@ -61,6 +63,10 @@ export default function HomeState({ children }) {
     history.push("/pay-stepp");
   };
 
+  const handleCountry = (country) => {
+    dispatch({ type: SET_COUNTRY, payload: country });
+  };
+
   useEffect(() => {
     if (localStorage.getItem("promotionSelected")) {
       dispatch({
@@ -83,10 +89,12 @@ export default function HomeState({ children }) {
         promotions: state.promotions,
         promotionSelected: state.promotionSelected,
         phoneNumber: state.phoneNumber,
+        country: state.country,
         getPromotions,
         selectPromotion,
         clearPromotions,
         navigateToPayFor,
+        handleCountry,
       }}
     >
       {children}

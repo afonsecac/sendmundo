@@ -34,7 +34,7 @@ export default function PromotionItem({ promotion }) {
 
   return (
     <Grid item>
-      <ListItem selected={promotion.id === promotionSelected.id}>
+      <ListItem selected={promotion.id === promotionSelected?.id}>
         <Card className={classes.root} elevation={0}>
           <CardActionArea onClick={() => selectPromotion(promotion)}>
             <CardContent className={classes.cardContent}>
@@ -76,17 +76,15 @@ export default function PromotionItem({ promotion }) {
                   CUP
                 </Typography>
               </Grid>
-              {
-                promotion?.rechargeBonus ? (
-                    <Typography align="center" variant="body1">
-                      + {promotion.rechargeBonus}
-                    </Typography>
-                ) : (
-                  <Typography align="center" variant="body1">
-                    Saldo principal
-                  </Typography>
-                )
-              }
+              {promotion?.rechargeBonus ? (
+                <Typography align="center" variant="body1">
+                  + {promotion.rechargeBonus}
+                </Typography>
+              ) : (
+                <Typography align="center" variant="body1">
+                  Saldo principal
+                </Typography>
+              )}
             </CardContent>
             <CardActions className={classes.cardFooter}>
               <Grid container justify="center">
@@ -95,7 +93,11 @@ export default function PromotionItem({ promotion }) {
                   variant="body1"
                   style={{ fontWeight: 600 }}
                 >
-                  Pagas $ {promotion.promotionalPrice ? promotion.promotionalPrice : promotion.basePrice} {promotion.currency}
+                  Pagas ${" "}
+                  {promotion.promotionalPrice
+                    ? promotion.promotionalPrice
+                    : promotion.basePrice}{" "}
+                  {promotion.currency}
                 </Typography>
               </Grid>
             </CardActions>

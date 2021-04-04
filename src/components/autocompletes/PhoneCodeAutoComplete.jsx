@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import isEmpty from "validations/is-empty";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -25,14 +26,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
+export default function PhoneCodeAutoComplete({
+  handleChange,
+  country,
+  flag,
+  ...props
+}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
-  const [selectedOpt, setSelectedOpt] = React.useState();
+  const [selectedOpt, setSelectedOpt] = useState();
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (!isEmpty(country)) {
+      setSelectedOpt(country);
+    }
+  }, [country]);
+
+  useEffect(() => {
     let active = true;
 
     if (!loading) {
@@ -43,7 +55,14 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
       const response = await fetch("https://restcountries.eu/rest/v2/all");
       const countries = await response.json();
       if (active) {
-        setOptions(countries);
+        setOptions(
+          countries.sort((a, b) => {
+            const labelA = a.translations["es"] || a.nativeName;
+            const labelB = b.translations["es"] || b.nativeName;
+
+            return labelA > labelB ? 1 : labelB > labelA ? -1 : 0;
+          })
+        );
       }
     })();
 
@@ -57,8 +76,10 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
       setOptions([]);
     }
   }, [open]);
+
   return (
     <Autocomplete
+      value={selectedOpt || ""}
       open={open}
       onOpen={() => {
         setOpen(true);
@@ -71,7 +92,14 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
         handleChange(newValue);
       }}
       getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => `+${option?.callingCodes[0]}`}
+      getOptionLabel={(option) => {
+        let label = "";
+        if (!isEmpty(option) && option.callingCodes.length > 0)
+          label = flag
+            ? `+${option?.callingCodes[0]}`
+            : option.translations["es"] || option.nativeName;
+        return label;
+      }}
       options={options}
       renderOption={(option) => (
         <React.Fragment>
@@ -80,7 +108,11 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
               <span>
                 <img src={option.flag} width={20} alt="flag" />
               </span>
-              +{option.callingCodes[0]}
+              <span style={{ marginLeft: 10 }}>
+                {flag
+                  ? `+${option?.callingCodes[0]}`
+                  : option.translations["es"] || option.nativeName}
+              </span>
             </>
           )}
         </React.Fragment>
@@ -125,3 +157,7 @@ export default function PhoneCodeAutoComplete({ handleChange, ...props }) {
     />
   );
 }
+
+PhoneCodeAutoComplete.defaultProps = {
+  flag: false,
+};

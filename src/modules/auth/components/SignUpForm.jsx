@@ -216,7 +216,6 @@ export default function SignUpForm() {
                 required
                 fullWidth
                 autoFormat
-                regions={"america"}
                 error={
                   !!(
                     formik.touched.phone?.phoneNumber &&

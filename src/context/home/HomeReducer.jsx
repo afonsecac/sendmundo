@@ -5,7 +5,9 @@ import {
   SELECT_PROMOTION,
   CLEAR_PROMOTIONS,
   GET_PHONE_NUMBER,
+  SET_COUNTRY,
 } from "context/home/types";
+import isEmpty from "validations/is-empty";
 
 export default function HomeReducer(state, action) {
   const { payload, type } = action;
@@ -27,7 +29,7 @@ export default function HomeReducer(state, action) {
         ...{
           promotions: [],
           promotionSelected: null,
-        }
+        },
       };
     case GET_PROMOTIONS_FAIL:
       return {
@@ -43,6 +45,11 @@ export default function HomeReducer(state, action) {
       return {
         ...state,
         phoneNumber: payload,
+      };
+    case SET_COUNTRY:
+      return {
+        ...state,
+        country: payload,
       };
 
     default:

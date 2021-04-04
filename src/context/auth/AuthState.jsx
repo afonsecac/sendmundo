@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import AuthReducer from "context/auth/AuthReducer";
 import AuthContext from "context/auth/AuthContext";
 import axios, { otherInstance } from "axios-or";
-import setAuthToken from "utils/setAuthToken";
 import {
   UPDT_USER_DATA,
   LOADING,
@@ -52,10 +51,7 @@ export default function AuthState({ children }) {
     async (payload) => {
       try {
         dispatch({ type: LOADING_RECOVER_PW });
-        await axios.post(
-          "/security/recovery-password",
-          payload
-        );
+        await axios.post("/security/recovery-password", payload);
         dispatch({ type: RECOVER_PW_SUCCESS });
         enqueueSnackbar("Ha cambiado el password correctamente", {
           variant: "success",
@@ -103,11 +99,7 @@ export default function AuthState({ children }) {
     async (payload) => {
       try {
         dispatch({ type: LOADING });
-        const resp = await axios.post(
-          "/security/tokens",
-          payload
-        );
-        setAuthToken(resp.data.token);
+        const resp = await axios.post("/security/tokens", payload);
         localStorage.setItem("token", resp.data.token);
         localStorage.setItem("refreshToken", resp.data.refreshToken);
         const userData = jwtDecode(resp.data.token);
@@ -124,7 +116,6 @@ export default function AuthState({ children }) {
   );
 
   const logout = useCallback(() => {
-    setAuthToken();
     localStorage.clear();
     dispatch({ type: UPDT_USER_DATA, payload: {} });
     window.location = "/";
@@ -134,10 +125,7 @@ export default function AuthState({ children }) {
     async (payload, setErrors) => {
       try {
         dispatch({ type: LOADING_REGISTER });
-        const resp = await axios.post(
-          "/register",
-          payload
-        );
+        const resp = await axios.post("/register", payload);
         dispatch({ type: REGISTER_SUCCESS, payload: resp.data.user });
         localStorage.setItem("user", JSON.stringify(resp.data.user));
         enqueueSnackbar("El usuario se ha registrado correctamente", {
@@ -165,10 +153,7 @@ export default function AuthState({ children }) {
     async (payload) => {
       try {
         dispatch({ type: LOADING_CONFIRM });
-        const resp = await axios.post(
-          "/code/validate",
-          payload
-        );
+        const resp = await axios.post("/code/validate", payload);
         if (resp.data?.isBlocked) {
           dispatch({ type: CONFIRM_FAIL });
           enqueueSnackbar(
