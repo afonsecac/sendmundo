@@ -5,7 +5,6 @@ import {
   CardMedia,
   FormControlLabel,
   Grid,
-  Icon,
   Radio,
   RadioGroup,
 } from "@material-ui/core";

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, LinearProgress, Typography } from "@material-ui/core";
 import PromotionItem from "modules/home/components/PromotionItem";

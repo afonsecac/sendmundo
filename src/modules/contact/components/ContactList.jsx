@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { List, LinearProgress, Grid } from "@material-ui/core";
 import ContactItem from "modules/contact/components/ContactItem";
 import ContactForm from "modules/contact/components/ContactForm";
+import ContactEditForm from "modules/contact/components/ContactEditForm";
+import isEmpty from "validations/is-empty";
 
 import ContactContext from "context/contacts/ContactContext";
 
@@ -16,7 +18,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContactList() {
   const classes = useStyles();
-  const { loadingContacts, contacts, getContacts } = useContext(ContactContext);
+  const {
+    loadingContacts,
+    contacts,
+    getContacts,
+    selectedContact,
+  } = useContext(ContactContext);
 
   useEffect(() => {
     getContacts();
@@ -40,7 +47,7 @@ export default function ContactList() {
           </List>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <ContactForm />
+          {isEmpty(selectedContact) ? <ContactForm /> : <ContactEditForm />}
         </Grid>
       </Grid>
     </>

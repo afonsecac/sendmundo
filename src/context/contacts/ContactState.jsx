@@ -13,6 +13,7 @@ import {
   LOADING_CREATE_CONTACT,
   CREATE_CONTACT,
   CREATE_CONTACT_FAIL,
+  CLEAR_SELECTED_CONTACT,
 } from "context/contacts/types";
 import { useSnackbar } from "notistack";
 import ContactReducer from "context/contacts/ContactReducer";
@@ -84,11 +85,13 @@ export default function ContactState({ children }) {
   };
 
   const updateContact = useCallback(
-    async (contact, payload) => {
+    async (contact, payload, resetForm) => {
       try {
         dispatch({ type: LOADING_UPDATE_CONTACT, payload: true });
         await axios.put(`/contact/${contact.id}`, payload);
         dispatch({ type: UPDATE_CONTACT });
+        dispatch({ type: CLEAR_SELECTED_CONTACT });
+        resetForm();
         enqueueSnackbar(
           `El contacto ${contact.name} fue actualizado correctamente`,
           {
@@ -127,6 +130,10 @@ export default function ContactState({ children }) {
     [enqueueSnackbar, getContacts, state.params]
   );
 
+  const clearSelectedContact = useCallback(() => {
+    dispatch({ type: CLEAR_SELECTED_CONTACT });
+  }, []);
+
   return (
     <ContactContext.Provider
       value={{
@@ -141,6 +148,7 @@ export default function ContactState({ children }) {
         selectContact,
         updateContact,
         createContact,
+        clearSelectedContact,
       }}
     >
       {children}

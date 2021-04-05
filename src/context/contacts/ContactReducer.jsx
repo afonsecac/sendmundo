@@ -12,6 +12,7 @@ import {
   LOADING_CREATE_CONTACT,
   CREATE_CONTACT,
   CREATE_CONTACT_FAIL,
+  CLEAR_SELECTED_CONTACT,
 } from "context/contacts/types";
 
 export default function ContactsReducer(state, action) {
@@ -82,6 +83,11 @@ export default function ContactsReducer(state, action) {
       return {
         ...state,
         loadingCreate: false,
+      };
+    case CLEAR_SELECTED_CONTACT:
+      return {
+        ...state,
+        selectedContact: {},
       };
 
     default:

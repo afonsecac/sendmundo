@@ -7,7 +7,6 @@ import {
   GET_PHONE_NUMBER,
   SET_COUNTRY,
 } from "context/home/types";
-import isEmpty from "validations/is-empty";
 
 export default function HomeReducer(state, action) {
   const { payload, type } = action;
