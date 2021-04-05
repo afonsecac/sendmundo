@@ -118,7 +118,7 @@ export default function Header(props) {
           Perfil
         </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={LinkR} to="/contacts">
         <IconButton color="inherit">
           <ContactPhoneIcon />
         </IconButton>
@@ -127,7 +127,7 @@ export default function Header(props) {
         </Typography>
       </MenuItem>
       <MenuItem onClick={onLogout}>
-        <IconButton color="inherit" onClick={logout}>
+        <IconButton color="inherit">
           <ExitToAppIcon />
         </IconButton>
         <Typography align="center" variant="body1">
@@ -156,7 +156,7 @@ export default function Header(props) {
           Perfil
         </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={LinkR} to="/contacts">
         <IconButton color="inherit">
           <ContactPhoneIcon />
         </IconButton>
@@ -165,7 +165,7 @@ export default function Header(props) {
         </Typography>
       </MenuItem>
       <MenuItem onClick={onLogout}>
-        <IconButton color="inherit" onClick={logout}>
+        <IconButton color="inherit">
           <ExitToAppIcon />
         </IconButton>
         <Typography align="center" variant="body1">
