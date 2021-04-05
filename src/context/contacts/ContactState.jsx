@@ -14,6 +14,8 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_FAIL,
   CLEAR_SELECTED_CONTACT,
+  SET_FILTERS,
+  CLEAR_FILTERS,
 } from "context/contacts/types";
 import { useSnackbar } from "notistack";
 import ContactReducer from "context/contacts/ContactReducer";
@@ -30,8 +32,9 @@ export default function ContactState({ children }) {
       loadingDeleteContact: false,
       selectedContact: {},
       params: {
-        limit: 10,
+        limit: 4,
         page: 1,
+        name: "",
       },
       loadingUpdateContact: false,
       loadingCreate: false,
@@ -47,6 +50,7 @@ export default function ContactState({ children }) {
       const resp = await axios.get("/contact", {
         params: state.params,
       });
+      console.log(state.params);
       dispatch({ type: GET_CONTACTS, payload: resp.data });
     } catch (error) {
       dispatch({ type: GET_CONTACTS_FAIL });
@@ -134,6 +138,19 @@ export default function ContactState({ children }) {
     dispatch({ type: CLEAR_SELECTED_CONTACT });
   }, []);
 
+  const handlePageChange = useCallback((event, newPage) => {
+    dispatch({ type: SET_FILTERS, payload: newPage + 1, event: "page" });
+  }, []);
+
+  const handleParamsChange = useCallback((event) => {
+    const { name, value } = event.target;
+    dispatch({ type: SET_FILTERS, payload: value, event: name });
+  }, []);
+
+  const handleClearParamsChange = useCallback((event) => {
+    dispatch({ type: CLEAR_FILTERS });
+  }, []);
+
   return (
     <ContactContext.Provider
       value={{
@@ -143,12 +160,16 @@ export default function ContactState({ children }) {
         selectedContact: state.selectedContact,
         loadingUpdateContact: state.loadingUpdateContact,
         loadingCreate: state.loadingCreate,
+        params: state.params,
         getContacts,
         deleteContact,
         selectContact,
         updateContact,
         createContact,
         clearSelectedContact,
+        handlePageChange,
+        handleParamsChange,
+        handleClearParamsChange,
       }}
     >
       {children}

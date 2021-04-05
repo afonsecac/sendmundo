@@ -13,10 +13,12 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_FAIL,
   CLEAR_SELECTED_CONTACT,
+  SET_FILTERS,
+  CLEAR_FILTERS,
 } from "context/contacts/types";
 
 export default function ContactsReducer(state, action) {
-  const { payload, type } = action;
+  const { payload, type, event } = action;
   switch (type) {
     case SET_LOADING:
       return {
@@ -88,6 +90,23 @@ export default function ContactsReducer(state, action) {
       return {
         ...state,
         selectedContact: {},
+      };
+    case SET_FILTERS:
+      return {
+        ...state,
+        params: {
+          ...state.params,
+          [event]: payload,
+        },
+      };
+    case CLEAR_FILTERS:
+      return {
+        ...state,
+        params: {
+          limit: state.params.limit,
+          page: state.params.page,
+          name: "",
+        },
       };
 
     default:

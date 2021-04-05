@@ -39,7 +39,7 @@ export default function ContactForm() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      isFavorite: "",
+      isFavorite: false,
       contactInfo: {
         phone: "",
         nautaEmail: "",
@@ -152,7 +152,7 @@ export default function ContactForm() {
               className={classes.submit}
               withProgress={loadingCreate}
             >
-              Create
+              Crear
             </UnelevatedButton>
           </Grid>
         </Grid>

@@ -72,8 +72,8 @@ export default function ContactItem({ contact }) {
               >
                 Contacto
               </Typography>
-              {`— Mobil: ${contact.contactInfo?.phone || "-"}
-              \n Nauta: ${contact.contactInfo?.nautaEmail || "-"}`}
+              {`— Mobil: ${contact.contactInfo?.phone}
+              \n Nauta: ${contact.contactInfo?.nautaEmail || "???"}`}
             </React.Fragment>
           }
         />

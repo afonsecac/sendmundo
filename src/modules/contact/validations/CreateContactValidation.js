@@ -5,8 +5,6 @@ export const createContactSchema = () =>
     name: Yup.string().required("Campo requerido"),
     contactInfo: Yup.object().shape({
       phone: Yup.string().required("Campo requerido"),
-      nautaEmail: Yup.string()
-        .required("Campo requerido")
-        .email("Campo invalido"),
+      nautaEmail: Yup.string().email("Campo invalido"),
     }),
   });
