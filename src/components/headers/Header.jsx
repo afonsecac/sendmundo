@@ -14,6 +14,7 @@ import {
   useTheme,
   Tooltip,
 } from "@material-ui/core";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -118,6 +119,14 @@ export default function Header(props) {
           Perfil
         </Typography>
       </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton color="inherit">
+          <ListAltIcon />
+        </IconButton>
+        <Typography align="center" variant="body1">
+          Pedidos
+        </Typography>
+      </MenuItem>
       <MenuItem onClick={handleMenuClose} component={LinkR} to="/contacts">
         <IconButton color="inherit">
           <ContactPhoneIcon />
@@ -154,6 +163,14 @@ export default function Header(props) {
         </IconButton>
         <Typography align="center" variant="body1">
           Perfil
+        </Typography>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton color="inherit">
+          <ListAltIcon />
+        </IconButton>
+        <Typography align="center" variant="body1">
+          Pedidos
         </Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose} component={LinkR} to="/contacts">
