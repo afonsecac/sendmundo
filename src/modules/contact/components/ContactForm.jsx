@@ -11,6 +11,7 @@ import MaterialUiPhoneNumber from "material-ui-phone-number";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
 import ContactContext from "context/contacts/ContactContext";
 import { useFormik } from "formik";
+import { createContactSchema } from "modules/contact/validations/CreateContactValidation";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,19 +41,14 @@ export default function ContactForm() {
       name: "",
       isFavorite: "",
       contactInfo: {
-        phone: {
-          code: "",
-          number: "",
-        },
-        nauta: {
-          email: "",
-        },
+        phone: "",
+        nautaEmail: "",
       },
     },
     onSubmit: (values, { resetForm }) => {
       createContact(values, resetForm);
     },
-    // validationSchema: registerSchema,
+    validationSchema: createContactSchema,
   });
 
   return (
@@ -83,55 +79,53 @@ export default function ContactForm() {
           <Grid item xs={12}>
             <MaterialUiPhoneNumber
               defaultCountry={"cu"}
-              onChange={(e, country) => {
-                formik.setFieldValue(
-                  "contactInfo.phone.code",
-                  `+${country.dialCode}`
-                );
-                const phoneNumber = e.replace(`+${country.dialCode}`, "");
-                formik.setFieldValue("contactInfo.phone.number", phoneNumber);
+              name="contactInfo.phone"
+              value={formik.values.contactInfo.phone || ""}
+              onChange={(e) => {
+                formik.setFieldValue("contactInfo.phone", e);
               }}
+              onBlur={formik.handleBlur}
               variant="outlined"
               required
               fullWidth
               autoFormat
-              //   error={
-              //     !!(
-              //       formik.touched.phone?.phoneNumber &&
-              //       formik.errors.phone?.phoneNumber
-              //     )
-              //   }
-              //   helperText={
-              //     formik.touched.phone?.phoneNumber &&
-              //     formik.errors.phone?.phoneNumber
-              //       ? formik.errors.phone?.phoneNumber
-              //       : ""
-              //   }
+              error={
+                !!(
+                  formik.touched?.contactInfo?.phone &&
+                  formik.errors?.contactInfo?.phone
+                )
+              }
+              helperText={
+                formik.touched?.contactInfo?.phone &&
+                formik.errors?.contactInfo?.phone
+                  ? formik.errors?.contactInfo?.phone
+                  : ""
+              }
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              name="contactInfo.nauta.email"
+              name="contactInfo.nautaEmail"
               variant="outlined"
               required
               fullWidth
               label="Nauta"
               type="email"
-              value={formik.values.contactInfo?.nauta?.email || ""}
+              value={formik.values.contactInfo.nautaEmail || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              //   error={
-              //     !!(
-              //       formik.touched.contactInfo.nauta.email &&
-              //       formik.errors.contactInfo.nauta.email
-              //     )
-              //   }
-              //   helperText={
-              //     formik.touched.contactInfo.nauta.email &&
-              //     formik.errors.contactInfo.nauta.email
-              //       ? formik.errors.contactInfo.nauta.email
-              //       : ""
-              //   }
+              error={
+                !!(
+                  formik.touched?.contactInfo?.nautaEmail &&
+                  formik.errors?.contactInfo?.nautaEmail
+                )
+              }
+              helperText={
+                formik.touched?.contactInfo?.nautaEmail &&
+                formik.errors?.contactInfo?.nautaEmail
+                  ? formik.errors?.contactInfo?.nautaEmail
+                  : ""
+              }
             />
           </Grid>
           <Grid item xs={12}>

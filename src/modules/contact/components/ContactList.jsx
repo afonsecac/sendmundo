@@ -24,11 +24,11 @@ export default function ContactList() {
 
   return (
     <>
-      <Grid item style={{ height: 5 }}>
-        <LinearProgress hidden={!loadingContacts} />
-      </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
+          <Grid item style={{ height: 5 }}>
+            <LinearProgress hidden={!loadingContacts} />
+          </Grid>
           <List className={classes.root}>
             {contacts?.data
               ?.sort((a, b) => {
