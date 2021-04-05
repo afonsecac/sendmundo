@@ -1,15 +1,18 @@
-import React, {useState} from "react";
-import {CardElement, Elements, useElements, useStripe} from "@stripe/react-stripe-js";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
+import React, {useContext, useEffect, useState} from "react";
+import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
+import {Button, Checkbox, FormControlLabel} from "@material-ui/core";
+import PaymentContext from "../../../context/payment/PaymentContext";
+import HomeContext from "../../../context/home/HomeContext";
+import {MonetizationOn} from "@material-ui/icons";
 
 export default function FormStripeElement() {
-    const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
-    const [processing, setProcessing] = useState('');
-    const [disabled, setDisabled] = useState(true);
-    const [clientSecret, setClientSecret] = useState('');
+    const [validCard, setValidCard] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
+
+    const { getCardSettings, cardSettings, ownPhoneNumber, createPaymentWidthCard, cardPaymentOut, createOrUpdate, order, paymentCompleted, methodCard } = useContext(PaymentContext);
+    const { promotionSelected } = useContext(HomeContext);
 
     const cardStyle = {
         style: {
@@ -33,30 +36,55 @@ export default function FormStripeElement() {
     };
 
     const handleChange = async (event) => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
-        setDisabled(event.empty);
         setError(event.error ? event.error.message : "");
+        setValidCard(event.complete);
     };
 
     const handleSubmit = async ev => {
         ev.preventDefault();
-        setProcessing(true);
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
-            }
-        });
-
-        if (payload.error) {
-            setError(`Payment failed ${payload.error.message}`);
-            setProcessing(false);
-        } else {
-            setError(null);
-            setProcessing(false);
-            setSucceeded(true);
+        if (order) {
+            await createOrUpdate({
+                offerId: promotionSelected.id,
+                contactInfo: {
+                    ownPhoneNumber
+                }
+            })
         }
-    };
+        // const card = elements.getElement(CardElement);
+        // const payload = await stripe.confirmCardPayment('sk_test_slItGr7mtW0oYkHl8FdZkG4E00N7WnYqCw', {
+        //     payment_method: {
+        //         card
+        //     }
+        // });
+        // console.log(payload);
+
+        // if (payload.error) {
+        //     setValidCard(false);
+        //     setError(`Payment failed ${payload.error.message}`);
+        //     setProcessing(false);
+        // } else {
+        //     setError(null);
+        //     setProcessing(false);
+        //     setSucceeded(true);
+        // }
+    }
+
+    useEffect(() => {
+        (async () => {
+            if (methodCard && !cardSettings) {
+                await getCardSettings(methodCard.id);
+            }
+        })();
+    }, [methodCard, cardSettings, order]);
+
+    async function createOrderToPay() {
+        await createOrUpdate({
+            offerId: promotionSelected.id,
+            contactInfo: {
+                ownPhoneNumber
+            }
+        })
+    }
 
 
     return (
@@ -75,6 +103,18 @@ export default function FormStripeElement() {
                 label="Almacenar de forma segura su tarjeta para pagos futuros."
                 labelPlacement="end"
             />
+            {
+                cardSettings && !order && validCard && (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        endIcon={<MonetizationOn />}
+                    >
+                        Generar Pago
+                    </Button>
+                )
+            }
         </form>
     );
 }

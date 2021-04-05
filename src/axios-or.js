@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instace = axios.create({
-  baseURL: "https://api.sendmundo.com",
+  baseURL: "https://127.0.0.1:8000",
 });
 
 instace.interceptors.request.use(

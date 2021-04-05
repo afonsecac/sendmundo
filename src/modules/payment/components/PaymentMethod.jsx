@@ -9,13 +9,14 @@ import {
   RadioGroup,
 } from "@material-ui/core";
 import { MonetizationOn } from "@material-ui/icons";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import * as moment from "moment";
+// import Cards from 'react-credit-cards';
 
-import FormStripeElement from "./FormStripeElement";
 import PaymentContext from "../../../context/payment/PaymentContext";
 import HomeContext from "../../../context/home/HomeContext";
+import {Elements} from "@stripe/react-stripe-js";
+import FormStripeElement from "./FormStripeElement";
+import { loadStripe } from "@stripe/stripe-js";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -82,13 +83,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
-let promise = null;
-
+let promise;
 export default function PaymentMethod() {
   const classes = useStyles();
   const [paymentsMethod, setPaymentsMethod] = useState([]);
   const [paymentSelected, setPaymentSelected] = useState(null);
   const [currency, setCurrency] = useState("USD");
+  const [creditCard, setCreditCard] = useState({
+    cvc: '',
+    expiry: '',
+    focus: '',
+    name: '',
+    number: '',
+  });
 
   const {
     methods,
@@ -99,6 +106,7 @@ export default function PaymentMethod() {
     getPaymentsMethod,
     generateOrderPayment,
     getRate,
+    handleCardSettings
   } = useContext(PaymentContext);
   const { promotionSelected } = useContext(HomeContext);
   const [changeRate, setChangeRate] = useState(null);
@@ -113,12 +121,13 @@ export default function PaymentMethod() {
         setPaymentsMethod(methods);
       }
     })();
-  }, [getPaymentsMethod, getRate, methods]);
+  }, []);
 
   useEffect(() => {
     if (methods) {
       if (methods.length > 0) {
-        if (methods[0].publicKey) {
+        if (methods[0].paymentMethod.code === 'CREDIT_CARD' && methods[0].publicKey) {
+          handleCardSettings(methods[0].paymentMethod);
           promise = loadStripe(methods[0].publicKey);
         }
         setPaymentSelected(methods[0]);
@@ -143,8 +152,9 @@ export default function PaymentMethod() {
       (it) => it.id.indexOf(event?.target?.value) === 0
     );
     if (valuesSelected.length > 0) {
-      if (valuesSelected[0].publicKey) {
+      if (valuesSelected[0].paymentMethod.code === 'CREDIT_CARD' && valuesSelected[0].publicKey) {
         promise = loadStripe(valuesSelected[0].publicKey);
+        handleCardSettings(valuesSelected[0].paymentMethod);
       }
       setPaymentSelected(valuesSelected[0]);
     }
@@ -165,6 +175,16 @@ export default function PaymentMethod() {
       }
     );
   };
+
+  const handleInputFocus = (e) => {
+    setCreditCard({ ...creditCard, focus: e.target.name });
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setCreditCard({ ...creditCard, [name]: value });
+  }
 
   return (
     <React.Fragment>
@@ -287,6 +307,45 @@ export default function PaymentMethod() {
               <Elements stripe={promise}>
                 <FormStripeElement />
               </Elements>
+              // <div id="PaymentForm">
+              //   <Cards
+              //       cvc={creditCard.cvc}
+              //       expiry={creditCard.expiry}
+              //       focused={creditCard.focus}
+              //       name={creditCard.name}
+              //       number={creditCard.number}
+              //   />
+              //   <form>
+              //     <input
+              //         type="tel"
+              //         name="number"
+              //         placeholder="Card Number"
+              //         onChange={handleInputChange}
+              //         onFocus={handleInputFocus}
+              //     />
+              //     <input
+              //         type="text"
+              //         name="name"
+              //         placeholder="Card Holder Name"
+              //         onChange={handleInputChange}
+              //         onFocus={handleInputFocus}
+              //     />
+              //     <input
+              //         type="tel"
+              //         name="expiry"
+              //         placeholder="Expred Date"
+              //         onChange={handleInputChange}
+              //         onFocus={handleInputFocus}
+              //     />
+              //     <input
+              //         type="password"
+              //         name="cvc"
+              //         placeholder="CVV"
+              //         onChange={handleInputChange}
+              //         onFocus={handleInputFocus}
+              //     />
+              //   </form>
+              // </div>
             )}
           {!paymentOrder &&
             !paymentStatus &&

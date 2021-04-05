@@ -11,7 +11,17 @@ import {
     LOADING_RATES,
     METHODS_RATES,
     METHODS_RATES_FAIL,
-    PAYMENT_RESET
+    PAYMENT_RESET,
+    LOADING_CARD_SETTINGS,
+    METHODS_CARD,
+    METHODS_CARD_FAIL,
+    LOADING_PAY_CARD,
+    METHODS_PAY_CC,
+    METHODS_PAY_CC_FAIL,
+    LOADING_PAY_CARD_ORDER,
+    METHODS_PAY_CC_ORDER,
+    METHODS_PAY_CC_ORDER_FAIL,
+    CARD_SETTINGS_UPLOAD
 } from "context/payment/types";
 
 export default function PaymentReducer(state, action) {
@@ -112,7 +122,58 @@ export default function PaymentReducer(state, action) {
                     paymentCompleted: null,
                     rate: null,
                 }
-            }
+            };
+        case LOADING_CARD_SETTINGS:
+            return {
+                ...state,
+                cardSettings: {}
+            };
+        case METHODS_CARD:
+            return {
+                ...state,
+                cardSettings: payload
+            };
+        case METHODS_CARD_FAIL:
+            return {
+                ...state,
+                cardSettings: null
+            };
+
+        case LOADING_PAY_CARD:
+            return {
+                ...state,
+                cardPaymentOut: null
+            };
+        case METHODS_PAY_CC:
+            return {
+                ...state,
+                cardPaymentOut: payload
+            };
+        case METHODS_PAY_CC_FAIL:
+            return {
+                ...state,
+                cardPaymentOut: null
+            };
+        case LOADING_PAY_CARD_ORDER: return {
+            ...state,
+            order: null
+        };
+        case METHODS_PAY_CC_ORDER:
+            return {
+                ...state,
+                order: payload
+            };
+        case METHODS_PAY_CC_ORDER_FAIL:
+            return {
+                ...state,
+                order: null
+            };
+
+        case CARD_SETTINGS_UPLOAD:
+            return {
+                ...state,
+                methodCard: payload
+            };
 
         default:
             return state;
