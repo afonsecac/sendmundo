@@ -9,10 +9,12 @@ import UserConfirm from "modules/auth/containers/UserConfirm";
 import SendCode from "modules/auth/containers/SendCode";
 import RecoverPassword from "modules/auth/containers/RecoverPassword";
 import ContactContainer from "modules/contact/containers/ContactContainer";
+import OrderContainer from "modules/order/containers/OrderContainer";
 
 import HomeState from "context/home/HomeState";
 import PaymentState from "context/payment/PaymentState";
 import ContactState from "context/contacts/ContactState";
+import OrderState from "context/order/OrderState";
 
 export default function ModulesRoutes() {
   return (
@@ -28,6 +30,11 @@ export default function ModulesRoutes() {
           <ContactState>
             <PrivateRoute path="/contacts" exact component={ContactContainer} />
           </ContactState>
+        </Switch>
+        <Switch>
+          <OrderState>
+            <PrivateRoute path="/orders" exact component={OrderContainer} />
+          </OrderState>
         </Switch>
       </HomeState>
       <Route path="/login" exact component={Login} />

@@ -119,7 +119,7 @@ export default function Header(props) {
           Perfil
         </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={LinkR} to="/orders">
         <IconButton color="inherit">
           <ListAltIcon />
         </IconButton>
@@ -165,7 +165,7 @@ export default function Header(props) {
           Perfil
         </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleMenuClose} component={LinkR} to="/orders">
         <IconButton color="inherit">
           <ListAltIcon />
         </IconButton>
