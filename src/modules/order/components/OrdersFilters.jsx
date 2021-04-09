@@ -148,7 +148,7 @@ export default function OrdersFilters() {
             <DatePickerInput
               value={params.endDate}
               inputVariant={"outlined"}
-              label={"Seleccione la fecha inicial"}
+              label={"Seleccione la fecha final"}
               helperText={
                 <span>
                   Filtrar ordenes por <b>Fecha Final</b>
