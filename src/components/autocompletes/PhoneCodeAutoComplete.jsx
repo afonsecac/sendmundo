@@ -121,7 +121,7 @@ export default function PhoneCodeAutoComplete({
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Codigo"
+          placeholder="Busque un pais"
           size="small"
           variant="outlined"
           className={classes.textField}

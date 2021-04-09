@@ -21,16 +21,16 @@ export default function ModulesRoutes() {
     <>
       <HomeState>
         <Route path="/" exact component={HomeContainer} />
-        <Switch>
-          <PaymentState>
-            <PrivateRoute path="/pay-stepp" exact component={Payment} />
-          </PaymentState>
-        </Switch>
-        <Switch>
-          <ContactState>
+        <ContactState>
+          <Switch>
+            <PaymentState>
+              <PrivateRoute path="/pay-stepp" exact component={Payment} />
+            </PaymentState>
+          </Switch>
+          <Switch>
             <PrivateRoute path="/contacts" exact component={ContactContainer} />
-          </ContactState>
-        </Switch>
+          </Switch>
+        </ContactState>
         <Switch>
           <OrderState>
             <PrivateRoute path="/orders" exact component={OrderContainer} />

@@ -7,6 +7,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
+import PhoneRechargeSelect from "modules/payment/components/PhoneRechargeSelect";
+
 import PaymentContext from "context/payment/PaymentContext";
 import HomeContext from "context/home/HomeContext";
 
@@ -26,6 +28,8 @@ export default function PhoneRechar() {
     handleChangeConfirmOwnPHNumber,
     handleChangeAddContact,
     checkAddContact,
+    ownPhoneNumber,
+    confirmOwnPhoneNumber,
   } = useContext(PaymentContext);
   const { phoneNumber } = useContext(HomeContext);
 
@@ -38,23 +42,30 @@ export default function PhoneRechar() {
   return (
     <Grid container item spacing={3} xs={12} sm={8}>
       <Grid item xs={12}>
-        <MaterialUiPhoneNumber
-          value={phoneNumber}
-          defaultCountry={"cu"}
-          onChange={(e) => {
-            handleChangeOwnPHNumber(e);
-          }}
-          variant="outlined"
-          label="Teléfono Cubacel "
-          required
-          autoFormat
-          size="small"
-          className={classes.textField}
-        />
+        <Grid item container alignItems="center">
+          <Grid item>
+            <MaterialUiPhoneNumber
+              value={ownPhoneNumber || phoneNumber}
+              defaultCountry={"cu"}
+              onChange={(e) => {
+                handleChangeOwnPHNumber(e);
+              }}
+              variant="outlined"
+              label="Teléfono Cubacel "
+              required
+              autoFormat
+              size="small"
+              className={classes.textField}
+            />
+          </Grid>
+          <Grid item>
+            <PhoneRechargeSelect />
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <MaterialUiPhoneNumber
-          value={phoneNumber}
+          value={confirmOwnPhoneNumber || phoneNumber}
           defaultCountry={"cu"}
           onChange={(e) => {
             handleChangeConfirmOwnPHNumber(e);
