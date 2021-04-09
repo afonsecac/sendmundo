@@ -13,6 +13,7 @@ import { FilterList, Close } from "@material-ui/icons";
 import * as moment from "moment";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
 import DatePickerInput from "components/inputs/DatePickerInput";
+import { formatDate } from "utils/utils";
 
 import OrderContext from "context/order/OrderContext";
 
@@ -57,7 +58,7 @@ export default function OrdersFilters() {
       let m = moment(value);
       m.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
       handleParamsChange({
-        target: { name: "startDate", value: m.toISOString() },
+        target: { name: "startDate", value: formatDate(m, "YYYY-MM-DD") },
       });
     },
     [handleParamsChange]
@@ -68,7 +69,7 @@ export default function OrdersFilters() {
       let m = moment(value);
       m.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
       handleParamsChange({
-        target: { name: "endDate", value: m.toISOString() },
+        target: { name: "endDate", value: formatDate(m, "YYYY-MM-DD") },
       });
     },
     [handleParamsChange]
