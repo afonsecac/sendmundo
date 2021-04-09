@@ -19,11 +19,11 @@ export default function OrderState({ children }) {
       loadingOrders: false,
       orders: [],
       params: {
-        limit: 8,
+        limit: 4,
         page: 1,
-        // startDate: "",
-        // endDate: "",
-        // invoiceCode: "",
+        invoiceCode: "",
+        startDate: null,
+        endDate: null,
         // order: "",
       },
     }),
@@ -56,6 +56,10 @@ export default function OrderState({ children }) {
     dispatch({ type: CLEAR_FILTERS });
   }, []);
 
+  const handlePageChange = useCallback((event, newPage) => {
+    dispatch({ type: FILTERS, payload: newPage + 1, event: "page" });
+  }, []);
+
   return (
     <OrderContext.Provider
       value={{
@@ -65,6 +69,7 @@ export default function OrderState({ children }) {
         getOrders,
         handleParamsChange,
         handleClearParamsChange,
+        handlePageChange,
       }}
     >
       {children}

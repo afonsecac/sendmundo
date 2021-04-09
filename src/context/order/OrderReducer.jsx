@@ -41,7 +41,8 @@ export default function ContactsReducer(state, action) {
         params: {
           limit: state.params.limit,
           page: state.params.page,
-          name: "",
+          startDate: null,
+          endDate: null,
         },
       };
 

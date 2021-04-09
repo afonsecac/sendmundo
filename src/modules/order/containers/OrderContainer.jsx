@@ -19,9 +19,7 @@ export default function OrderContainer() {
         alignItems="stretch"
         className={classes.root}
       >
-        <Grid item>
-          <OrdersList />
-        </Grid>
+        <OrdersList />
       </Grid>
     </React.Fragment>
   );
