@@ -119,7 +119,7 @@ export default function ContactState({ children }) {
         dispatch({ type: LOADING_CREATE_CONTACT, payload: true });
         await axios.post("/contact", payload);
         dispatch({ type: CREATE_CONTACT });
-        resetForm();
+        if (resetForm) resetForm();
         enqueueSnackbar(`El contacto fue creado correctamente`, {
           variant: "success",
         });

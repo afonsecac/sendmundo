@@ -31,14 +31,16 @@ export default function PhoneRechar() {
     checkAddContact,
     ownPhoneNumber,
     confirmOwnPhoneNumber,
+    handleChangeNewContactName,
+    newContactName,
   } = useContext(PaymentContext);
   const { phoneNumber } = useContext(HomeContext);
 
   useEffect(() => {
-    if (phoneNumber) {
+    if (phoneNumber && !ownPhoneNumber) {
       handleChangeOwnPHNumber(phoneNumber);
     }
-  }, [handleChangeOwnPHNumber, phoneNumber]);
+  }, [handleChangeOwnPHNumber, ownPhoneNumber, phoneNumber]);
 
   return (
     <Grid container item spacing={3} xs={12} sm={8}>
@@ -100,10 +102,12 @@ export default function PhoneRechar() {
           <TextField
             className={classes.textField}
             name="name"
+            size="small"
+            required
             variant="outlined"
             label="Nombre"
-            // value={params.name || ""}
-            // onChange={handleParamsChange}
+            value={newContactName}
+            onChange={handleChangeNewContactName}
             helperText={
               <span>
                 Nombre del <b>contacto</b>

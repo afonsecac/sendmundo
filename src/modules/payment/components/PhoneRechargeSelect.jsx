@@ -34,6 +34,7 @@ export default function PhoneRechargeSelect() {
   const {
     handleChangeOwnPHNumber,
     handleChangeConfirmOwnPHNumber,
+    handleChangeAddContact,
   } = useContext(PaymentContext);
   const {
     loadingContacts,
@@ -56,6 +57,7 @@ export default function PhoneRechargeSelect() {
   const handleSelectContact = (contact) => {
     handleChangeOwnPHNumber(contact.contactInfo.phone);
     handleChangeConfirmOwnPHNumber(contact.contactInfo.phone);
+    handleChangeAddContact(false);
     handleClose();
   };
 

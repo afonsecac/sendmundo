@@ -4,6 +4,7 @@ import PaymentContext from "context/payment/PaymentContext";
 import {
   CHECK_ADD_CONTACT,
   LOADING_METHODS_TYPE,
+  SET_NEW_CONTACT_NAME,
   METHODS_TYPE,
   METHODS_TYPE_FAIL,
   PAYMENT_COMPLETED,
@@ -26,6 +27,7 @@ export default function PaymentState({ children }) {
       ownPhoneNumber: "",
       confirmOwnPhoneNumber: "",
       checkAddContact: false,
+      newContactName: "",
       methods: [],
       paymentStatus: null,
       paymentOrder: null,
@@ -110,6 +112,10 @@ export default function PaymentState({ children }) {
     }
   }, [enqueueSnackbar]);
 
+  const handleChangeNewContactName = useCallback((event) => {
+    dispatch({ type: SET_NEW_CONTACT_NAME, payload: event.target.value });
+  }, []);
+
   return (
     <PaymentContext.Provider
       value={{
@@ -121,9 +127,11 @@ export default function PaymentState({ children }) {
         paymentOrder: state.paymentOrder,
         paymentCompleted: state.paymentCompleted,
         rate: state.rate,
+        newContactName: state.newContactName,
         handleResetAndClear,
         handleChangeOwnPHNumber,
         handleChangeConfirmOwnPHNumber,
+        handleChangeNewContactName,
         handleChangeAddContact,
         getPaymentsMethod,
         generateOrderPayment,
