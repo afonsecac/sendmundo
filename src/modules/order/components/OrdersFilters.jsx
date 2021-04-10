@@ -118,7 +118,7 @@ export default function OrdersFilters() {
               name="invoiceCode"
               variant="outlined"
               fullWidth
-              label="Codigo"
+              label="Código"
               value={params.invoiceCode || ""}
               onChange={handleParamsChange}
               helperText={
@@ -130,6 +130,7 @@ export default function OrdersFilters() {
           </Grid>
           <Grid item>
             <DatePickerInput
+              margin="none"
               value={params.startDate}
               inputVariant={"outlined"}
               label={"Seleccione la fecha inicial"}
@@ -147,6 +148,7 @@ export default function OrdersFilters() {
           </Grid>
           <Grid item>
             <DatePickerInput
+              margin="none"
               value={params.endDate}
               inputVariant={"outlined"}
               label={"Seleccione la fecha final"}

@@ -133,10 +133,10 @@ export default function OrdersList() {
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Precio</TableCell>
               <TableCell align="right">Moneda</TableCell>
-              <TableCell align="right">Codigo</TableCell>
+              <TableCell align="right">Código</TableCell>
               <TableCell align="right">Producto</TableCell>
-              <TableCell align="right">Transaccion de Pago</TableCell>
-              <TableCell align="right">Transaccion de Referencia</TableCell>
+              <TableCell align="right">Transacción de Pago</TableCell>
+              <TableCell align="right">Transacción de Referencia</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

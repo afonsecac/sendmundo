@@ -16,9 +16,9 @@ import {
   Typography,
   TextField,
   TablePagination,
+  Tooltip,
 } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
+import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
 import PaymentContext from "context/payment/PaymentContext";
 import ContactContext from "context/contacts/ContactContext";
@@ -69,9 +69,11 @@ export default function PhoneRechargeSelect() {
 
   return (
     <>
-      <IconButton aria-label="add contact" onClick={handleClickOpen}>
-        <AddIcon />
-      </IconButton>
+      <Tooltip title="Seleccione un contacto">
+        <IconButton aria-label="add contact" onClick={handleClickOpen}>
+          <ContactPhoneIcon />
+        </IconButton>
+      </Tooltip>
       <Dialog
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"

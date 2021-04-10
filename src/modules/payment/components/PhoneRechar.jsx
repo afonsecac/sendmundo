@@ -91,7 +91,7 @@ export default function PhoneRechar() {
                 checked={checkAddContact}
               />
             }
-            label="Deseo agregar este numero a mis contactos"
+            label="Deseo agregar este número a mis contactos"
             labelPlacement="end"
             onChange={(e) => handleChangeAddContact(e.target.checked)}
           />

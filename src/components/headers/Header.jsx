@@ -248,7 +248,7 @@ export default function Header(props) {
           </>
         ) : (
           <>
-            <Tooltip title="Iniciar session">
+            <Tooltip title="Iniciar sesión">
               <Button
                 variant="outlined"
                 size="large"
@@ -256,7 +256,7 @@ export default function Header(props) {
                 component={LinkR}
                 to="/login"
               >
-                {matches ? "Iniciar.." : "Iniciar session"}
+                {matches ? "Iniciar.." : "Iniciar sesión"}
               </Button>
             </Tooltip>
             <Hidden xsDown>

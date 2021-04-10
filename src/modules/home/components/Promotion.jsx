@@ -100,7 +100,7 @@ export default function Promotion() {
                   align="center"
                   style={{ color: "#0073a7" }}
                 >
-                  Seleccione un pais para mostrar las ofertas correspondientes.
+                  Seleccione un país para mostrar las ofertas correspondientes.
                 </Typography>
               )}
             </Grid>

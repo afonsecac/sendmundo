@@ -225,7 +225,7 @@ export default function PaymentStepper() {
                 onClick={handleBack}
                 className={classes.button}
               >
-                Atras
+                Atrás
               </Button>
               <Button
                 variant="contained"

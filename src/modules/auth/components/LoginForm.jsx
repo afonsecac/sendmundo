@@ -119,12 +119,12 @@ export default function LoginForm() {
           <Grid container>
             <Grid item xs>
               <Link component={LinkR} to="/send-code" variant="body2">
-                Has olvidado la contrasenna?
+                Has olvidado la contraseña?
               </Link>
             </Grid>
             <Grid item>
               <Link component={LinkR} to="/register" variant="body2">
-                {"No tienes usuario aun? Registrate"}
+                No tienes usuario aún? Regístrate
               </Link>
             </Grid>
           </Grid>
