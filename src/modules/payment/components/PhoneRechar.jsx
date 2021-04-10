@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Grid,
   makeStyles,
+  TextField,
 } from "@material-ui/core";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
 import PhoneRechargeSelect from "modules/payment/components/PhoneRechargeSelect";
@@ -94,6 +95,23 @@ export default function PhoneRechar() {
           />
         </Box>
       </Grid>
+      {checkAddContact && (
+        <Grid item xs={12}>
+          <TextField
+            className={classes.textField}
+            name="name"
+            variant="outlined"
+            label="Nombre"
+            // value={params.name || ""}
+            // onChange={handleParamsChange}
+            helperText={
+              <span>
+                Nombre del <b>contacto</b>
+              </span>
+            }
+          />
+        </Grid>
+      )}
     </Grid>
   );
 }

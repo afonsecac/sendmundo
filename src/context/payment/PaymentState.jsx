@@ -25,7 +25,7 @@ export default function PaymentState({ children }) {
     () => ({
       ownPhoneNumber: "",
       confirmOwnPhoneNumber: "",
-      checkAddContact: true,
+      checkAddContact: false,
       methods: [],
       paymentStatus: null,
       paymentOrder: null,

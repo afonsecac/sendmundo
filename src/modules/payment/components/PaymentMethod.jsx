@@ -113,7 +113,7 @@ export default function PaymentMethod() {
         setPaymentsMethod(methods);
       }
     })();
-  }, [getPaymentsMethod, getRate, methods]);
+  }, []);
 
   useEffect(() => {
     if (methods) {
