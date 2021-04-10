@@ -124,7 +124,7 @@ export default function PhoneRechargeSelect() {
                       >
                         Contacto
                       </Typography>
-                      {`— Mobil: ${contact.contactInfo?.phone}
+                      {`— Móvil: ${contact.contactInfo?.phone}
                     \n Nauta: ${contact.contactInfo?.nautaEmail || "???"}`}
                     </React.Fragment>
                   }
