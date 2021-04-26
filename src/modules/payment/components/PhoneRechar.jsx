@@ -5,8 +5,11 @@ import {
   FormControlLabel,
   Grid,
   makeStyles,
+  TextField,
 } from "@material-ui/core";
 import MaterialUiPhoneNumber from "material-ui-phone-number";
+import PhoneRechargeSelect from "modules/payment/components/PhoneRechargeSelect";
+
 import PaymentContext from "context/payment/PaymentContext";
 import HomeContext from "context/home/HomeContext";
 
@@ -26,35 +29,46 @@ export default function PhoneRechar() {
     handleChangeConfirmOwnPHNumber,
     handleChangeAddContact,
     checkAddContact,
+    ownPhoneNumber,
+    confirmOwnPhoneNumber,
+    handleChangeNewContactName,
+    newContactName,
   } = useContext(PaymentContext);
   const { phoneNumber } = useContext(HomeContext);
 
   useEffect(() => {
-    if (phoneNumber) {
+    if (phoneNumber && !ownPhoneNumber) {
       handleChangeOwnPHNumber(phoneNumber);
     }
-  }, [handleChangeOwnPHNumber, phoneNumber]);
+  }, [handleChangeOwnPHNumber, ownPhoneNumber, phoneNumber]);
 
   return (
     <Grid container item spacing={3} xs={12} sm={8}>
       <Grid item xs={12}>
-        <MaterialUiPhoneNumber
-          value={phoneNumber}
-          defaultCountry={"cu"}
-          onChange={(e) => {
-            handleChangeOwnPHNumber(e);
-          }}
-          variant="outlined"
-          label="Teléfono Cubacel "
-          required
-          autoFormat
-          size="small"
-          className={classes.textField}
-        />
+        <Grid item container alignItems="center">
+          <Grid item>
+            <MaterialUiPhoneNumber
+              value={ownPhoneNumber || phoneNumber}
+              defaultCountry={"cu"}
+              onChange={(e) => {
+                handleChangeOwnPHNumber(e);
+              }}
+              variant="outlined"
+              label="Teléfono Cubacel "
+              required
+              autoFormat
+              size="small"
+              className={classes.textField}
+            />
+          </Grid>
+          <Grid item>
+            <PhoneRechargeSelect />
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <MaterialUiPhoneNumber
-          value={phoneNumber}
+          value={confirmOwnPhoneNumber || phoneNumber}
           defaultCountry={"cu"}
           onChange={(e) => {
             handleChangeConfirmOwnPHNumber(e);
@@ -77,12 +91,31 @@ export default function PhoneRechar() {
                 checked={checkAddContact}
               />
             }
-            label="Deseo agregar este numero a mis contactos"
+            label="Deseo agregar este número a mis contactos"
             labelPlacement="end"
             onChange={(e) => handleChangeAddContact(e.target.checked)}
           />
         </Box>
       </Grid>
+      {checkAddContact && (
+        <Grid item xs={12}>
+          <TextField
+            className={classes.textField}
+            name="name"
+            size="small"
+            required
+            variant="outlined"
+            label="Nombre"
+            value={newContactName}
+            onChange={handleChangeNewContactName}
+            helperText={
+              <span>
+                Nombre del <b>contacto</b>
+              </span>
+            }
+          />
+        </Grid>
+      )}
     </Grid>
   );
 }

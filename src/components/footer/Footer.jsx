@@ -38,7 +38,7 @@ export default function Footer() {
             style={{ color: "#fff", fontWeight: 600 }}
             gutterBottom
           >
-            Politica de privacidad
+            Política de privacidad
           </Typography>
         </Grid>
         <Grid item>
@@ -48,7 +48,7 @@ export default function Footer() {
             color="textPrimary"
             gutterBottom
           >
-            Terminos y condiciones
+            Términos y condiciones
           </Typography>
         </Grid>
         <Grid item>

@@ -19,6 +19,18 @@ instace.interceptors.request.use(
   }
 );
 
+instace.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.clear();
+      window.location = "/";
+    } else return Promise.reject(error);
+  }
+);
+
 export const otherInstance = axios.create({
   headers: {
     "Content-Type": "application/json",

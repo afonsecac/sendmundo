@@ -17,6 +17,7 @@ import PaymentMethod from "modules/payment/components/PaymentMethod";
 
 import PaymentContext from "context/payment/PaymentContext";
 import HomeContext from "context/home/HomeContext";
+import ContactContext from "context/contacts/ContactContext";
 
 import isEmpty from "validations/is-empty";
 import UnelevatedButton from "common/buttons/UnelevatedButton";
@@ -49,8 +50,12 @@ export default function PaymentStepper() {
     confirmOwnPhoneNumber,
     paymentCompleted,
     handleResetAndClear,
+    checkAddContact,
+    newContactName,
+    handleChangeAddContact,
   } = useContext(PaymentContext);
   const { promotionSelected, clearPromotions } = useContext(HomeContext);
+  const { createContact } = useContext(ContactContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -79,17 +84,34 @@ export default function PaymentStepper() {
       enqueueSnackbar("Los mobiles deben cohincidir", {
         variant: "error",
       });
+    } else if (activeStep === 1 && checkAddContact && !newContactName) {
+      enqueueSnackbar("Para guardar el contacto debe llenar el nombre", {
+        variant: "error",
+      });
     } else if (activeStep === 2 && !paymentCompleted) {
       enqueueSnackbar("Aun no completa su pago", {
         variant: "error",
       });
     } else {
+      if (activeStep === 1 && checkAddContact && newContactName) {
+        createContact({
+          name: newContactName,
+          isFavorite: false,
+          contactInfo: {
+            phone: ownPhoneNumber,
+            nautaEmail: "",
+          },
+        });
+      }
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
     }
   };
 
   const handleBack = () => {
+    if (activeStep === 2) {
+      handleChangeAddContact(false);
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -193,13 +215,17 @@ export default function PaymentStepper() {
         ) : (
           <div>
             {getStepContent(activeStep)}
-            <Grid container justify="flex-end" style={{ marginTop: 20, marginBottom: 20 }}>
+            <Grid
+              container
+              justify="flex-end"
+              style={{ marginTop: 20, marginBottom: 20 }}
+            >
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 className={classes.button}
               >
-                Atras
+                Atrás
               </Button>
               <Button
                 variant="contained"

@@ -9,25 +9,32 @@ import UserConfirm from "modules/auth/containers/UserConfirm";
 import SendCode from "modules/auth/containers/SendCode";
 import RecoverPassword from "modules/auth/containers/RecoverPassword";
 import ContactContainer from "modules/contact/containers/ContactContainer";
+import OrderContainer from "modules/order/containers/OrderContainer";
 
 import HomeState from "context/home/HomeState";
 import PaymentState from "context/payment/PaymentState";
 import ContactState from "context/contacts/ContactState";
+import OrderState from "context/order/OrderState";
 
 export default function ModulesRoutes() {
   return (
     <>
       <HomeState>
         <Route path="/" exact component={HomeContainer} />
-        <Switch>
-          <PaymentState>
-            <PrivateRoute path="/pay-stepp" exact component={Payment} />
-          </PaymentState>
-        </Switch>
-        <Switch>
-          <ContactState>
+        <ContactState>
+          <Switch>
+            <PaymentState>
+              <PrivateRoute path="/pay-stepp" exact component={Payment} />
+            </PaymentState>
+          </Switch>
+          <Switch>
             <PrivateRoute path="/contacts" exact component={ContactContainer} />
-          </ContactState>
+          </Switch>
+        </ContactState>
+        <Switch>
+          <OrderState>
+            <PrivateRoute path="/orders" exact component={OrderContainer} />
+          </OrderState>
         </Switch>
       </HomeState>
       <Route path="/login" exact component={Login} />

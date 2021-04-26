@@ -62,7 +62,7 @@ export default function SendCodeForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Verificacion de usuario
+          Verificación de usuario
         </Typography>
         <form
           onSubmit={formik.handleSubmit}

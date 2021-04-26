@@ -79,7 +79,7 @@ export default function Promotion() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container justify="flex-start">
-            <Grid item xs>
+            <Grid item xs style={{ maxWidth: 400 }}>
               <PhoneCodeAutoComplete
                 handleChange={handlePhoneCodeSelect}
                 country={country}
@@ -87,7 +87,7 @@ export default function Promotion() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs>
+        <Grid item xs={12}>
           <Grid container spacing={1} justify="flex-start">
             {promotions.length > 0 &&
               promotions.map((promotion, index) => (
@@ -100,7 +100,7 @@ export default function Promotion() {
                   align="center"
                   style={{ color: "#0073a7" }}
                 >
-                  Seleccione un pais para mostrar las ofertas correspondientes.
+                  Seleccione un país para mostrar las ofertas correspondientes.
                 </Typography>
               )}
             </Grid>

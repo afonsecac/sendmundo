@@ -96,6 +96,7 @@ export default function ContactsReducer(state, action) {
         ...state,
         params: {
           ...state.params,
+          page: 1,
           [event]: payload,
         },
       };
